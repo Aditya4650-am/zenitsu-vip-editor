@@ -25,12 +25,18 @@ function encodeSaveData(xmlString) {
     return zlib.deflateSync(Buffer.from(xmlString, 'utf-8'));
 }
 
+// Improved Tag Updater (Handles existing tags + appends missing tags before last root tag)
 function updateXmlTag(xml, tag, value) {
-    const regex = new RegExp(`(<${tag}>)(.*?)(<\/${tag}>)`, 'g');
+    const regex = new RegExp(`(<${tag}>)(.*?)(<\/${tag}>)`, 'gs');
     if (regex.test(xml)) {
         return xml.replace(regex, `$1${value}$3`);
     }
-    return xml.replace('</save>', `  <${tag}>${value}</${tag}>\n</save>`);
+    // Fallback: Inject before the closing tag of the root element
+    const lastClosingIndex = xml.lastIndexOf('</');
+    if (lastClosingIndex !== -1) {
+        return xml.slice(0, lastClosingIndex) + `  <${tag}>${value}</${tag}>\n` + xml.slice(lastClosingIndex);
+    }
+    return xml + `\n<${tag}>${value}</${tag}>`;
 }
 
 // API Processing Route
@@ -43,20 +49,28 @@ app.post('/api/process', (req, res) => {
         const file = req.files.saveFile;
         let xmlContent = decodeSaveData(file.data);
 
-        const payload = JSON.parse(req.body.payload || '{}');
+        // Parse JSON safely
+        let payload = {};
+        try {
+            payload = typeof req.body.payload === 'string' ? JSON.parse(req.body.payload) : (req.body.payload || {});
+        } catch (e) {
+            payload = {};
+        }
+
         const activeTab = req.body.activeTab || 'stats';
+        const isRegattaInject = req.body.injectRegatta === 'true' || req.body.injectRegatta === true;
 
         // 1. STATS TAB MODIFICATIONS
         if (activeTab === 'stats' && payload.stats) {
             const s = payload.stats;
-            if (s.tcash_active && s.tcash) xmlContent = updateXmlTag(xmlContent, 'tcash', s.tcash);
-            if (s.coins_active && s.coins) xmlContent = updateXmlTag(xmlContent, 'coins', s.coins);
-            if (s.level_active && s.level) xmlContent = updateXmlTag(xmlContent, 'level', s.level);
-            if (s.m3lvl_active && s.m3lvl) xmlContent = updateXmlTag(xmlContent, 'm3lvl', s.m3lvl);
-            if (s.firstwin_active && s.firstwin) xmlContent = updateXmlTag(xmlContent, 'firstwin', s.firstwin);
-            if (s.lives_active && s.lives) xmlContent = updateXmlTag(xmlContent, 'lives', s.lives);
-            if (s.help_active && s.help) xmlContent = updateXmlTag(xmlContent, 'help', s.help);
-            if (s.cards_active && s.cards) xmlContent = updateXmlTag(xmlContent, 'cards', s.cards);
+            if (s.tcash_active && s.tcash !== undefined && s.tcash !== '') xmlContent = updateXmlTag(xmlContent, 'tcash', s.tcash);
+            if (s.coins_active && s.coins !== undefined && s.coins !== '') xmlContent = updateXmlTag(xmlContent, 'coins', s.coins);
+            if (s.level_active && s.level !== undefined && s.level !== '') xmlContent = updateXmlTag(xmlContent, 'level', s.level);
+            if (s.m3lvl_active && s.m3lvl !== undefined && s.m3lvl !== '') xmlContent = updateXmlTag(xmlContent, 'm3lvl', s.m3lvl);
+            if (s.firstwin_active && s.firstwin !== undefined && s.firstwin !== '') xmlContent = updateXmlTag(xmlContent, 'firstwin', s.firstwin);
+            if (s.lives_active && s.lives !== undefined && s.lives !== '') xmlContent = updateXmlTag(xmlContent, 'lives', s.lives);
+            if (s.help_active && s.help !== undefined && s.help !== '') xmlContent = updateXmlTag(xmlContent, 'help', s.help);
+            if (s.cards_active && s.cards !== undefined && s.cards !== '') xmlContent = updateXmlTag(xmlContent, 'cards', s.cards);
         }
 
         // 2. UNLOCKS TAB MODIFICATIONS
@@ -73,19 +87,21 @@ app.post('/api/process', (req, res) => {
         }
 
         // 4. REGATTA TAB MODIFICATIONS
-        if (activeTab === 'regatta' || payload.injectRegatta) {
-            let regattaPayload = '<regatta_tasks>\n';
+        if (activeTab === 'regatta' || isRegattaInject) {
+            let innerTasks = '\n';
             for (let i = 1; i <= 100; i++) {
-                regattaPayload += `  <task id="${i}" points="150" status="active" />\n`;
+                innerTasks += `    <task id="${i}" points="150" status="active" />\n`;
             }
-            regattaPayload += '</regatta_tasks>';
-            xmlContent = updateXmlTag(xmlContent, 'regatta_tasks', regattaPayload);
+            innerTasks += '  ';
+            xmlContent = updateXmlTag(xmlContent, 'regatta_tasks', innerTasks);
         }
 
         // 5. VIP TAB MODIFICATIONS
         if (activeTab === 'vip' && payload.vip) {
-            xmlContent = updateXmlTag(xmlContent, 'vip_membership', '1');
-            xmlContent = updateXmlTag(xmlContent, 'golden_ticket', '1');
+            if (payload.vip.goldenTicket) {
+                xmlContent = updateXmlTag(xmlContent, 'vip_membership', '1');
+                xmlContent = updateXmlTag(xmlContent, 'golden_ticket', '1');
+            }
         }
 
         const outputBuffer = encodeSaveData(xmlContent);
@@ -95,6 +111,7 @@ app.post('/api/process', (req, res) => {
         return res.send(outputBuffer);
 
     } catch (error) {
+        console.error('Server Processing Error:', error);
         return res.status(500).json({ success: false, message: error.message });
     }
 });
