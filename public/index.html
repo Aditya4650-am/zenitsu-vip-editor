@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENITSU VIP Save Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0d0e12; color: #ffffff; font-family: ui-sans-serif, system-ui, sans-serif; }
+        .card-bg { background-color: #161820; border: 1px solid #232734; }
+        .btn-cyan { background-color: rgba(0, 242, 254, 0.12); border: 1px solid #00f2fe; color: #00f2fe; }
+        .btn-pink { background: linear-gradient(90deg, #ff0844 0%, #ffb199 100%); }
+    </style>
+</head>
+<body class="p-4 max-w-md mx-auto min-h-screen flex flex-col justify-between">
+
+    <!-- Header Section -->
+    <div>
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center font-extrabold text-xl text-black shadow-lg">Z</div>
+                <div>
+                    <h1 class="font-bold text-lg leading-none tracking-wide text-yellow-400">ZENITSU VIP</h1>
+                    <span class="text-xs text-gray-400">v1.30-FIX-5 <span id="status" class="text-emerald-400 font-mono ml-1">• CONNECTED</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Upload Area -->
+        <div class="card-bg p-3 rounded-xl mb-4">
+            <label class="block text-xs font-semibold text-gray-400 mb-2">SELECT TOWNSHIP SAVE FILE (.XML / .BIN)</label>
+            <input type="file" id="saveFileInput" accept=".xml,.bin" class="block w-full text-xs text-gray-300 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-yellow-500/20 file:text-yellow-400 hover:file:bg-yellow-500/30 cursor-pointer">
+        </div>
+
+        <!-- Action Grid -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <button onclick="processSave(false)" class="btn-cyan p-3 rounded-xl font-semibold text-xs flex flex-col items-center gap-1 active:scale-95 transition">
+                <span class="opacity-75">Save Changes</span>
+                <span class="text-sm font-bold">APPLY STATS</span>
+            </button>
+            <button onclick="processSave(true)" class="btn-pink p-3 rounded-xl font-semibold text-xs text-white flex flex-col items-center gap-1 shadow-lg active:scale-95 transition">
+                <span class="opacity-85">Inject Regatta</span>
+                <span class="text-sm font-bold">INJECT 100 TASKS</span>
+            </button>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex bg-gray-900 p-1 rounded-xl mb-4 border border-gray-800 text-xs font-semibold justify-between">
+            <button onclick="switchTab('stats')" id="tab-stats" class="w-1/2 py-2 rounded-lg bg-gray-800 text-yellow-400">STATS</button>
+            <button onclick="switchTab('regatta')" id="tab-regatta" class="w-1/2 py-2 rounded-lg text-gray-400">REGATTA</button>
+        </div>
+
+        <!-- STATS PANEL -->
+        <div id="panel-stats" class="grid grid-cols-2 gap-3 mb-4">
+            <div class="card-bg p-3 rounded-xl">
+                <span class="text-xs text-yellow-500 font-bold">💰 T-CASH</span>
+                <input type="number" id="tcash" value="99689267" class="w-full bg-transparent font-bold text-base mt-1 outline-none text-white">
+            </div>
+            <div class="card-bg p-3 rounded-xl">
+                <span class="text-xs text-yellow-600 font-bold">🪙 COINS</span>
+                <input type="number" id="coins" value="1809119" class="w-full bg-transparent font-bold text-base mt-1 outline-none text-white">
+            </div>
+            <div class="card-bg p-3 rounded-xl">
+                <span class="text-xs text-cyan-400 font-bold">⭐ LEVEL</span>
+                <input type="number" id="level" value="1090" class="w-full bg-transparent font-bold text-base mt-1 outline-none text-white">
+            </div>
+            <div class="card-bg p-3 rounded-xl">
+                <span class="text-xs text-purple-400 font-bold">🧩 M3 LVL</span>
+                <input type="number" id="m3lvl" value="10000" class="w-full bg-transparent font-bold text-base mt-1 outline-none text-white">
+            </div>
+            <div class="card-bg p-3 rounded-xl">
+                <span class="text-xs text-pink-500 font-bold">❤️ LIVES</span>
+                <input type="number" id="lives" value="5629" class="w-full bg-transparent font-bold text-base mt-1 outline-none text-white">
+            </div>
+            <div class="card-bg p-3 rounded-xl">
+                <span class="text-xs text-indigo-400 font-bold">🤝 HELP</span>
+                <input type="number" id="help" value="55090" class="w-full bg-transparent font-bold text-base mt-1 outline-none text-white">
+            </div>
+        </div>
+
+        <!-- REGATTA PANEL -->
+        <div id="panel-regatta" class="hidden card-bg p-4 rounded-xl mb-4 text-center">
+            <h2 class="font-bold text-sm mb-1 text-pink-400">ZENITSU VIP Regatta Task Injection</h2>
+            <p class="text-xs text-gray-400 mb-3">Injects 100 active tasks worth 150 points directly into your save file structure.</p>
+        </div>
+    </div>
+
+    <!-- Live Terminal Console -->
+    <div class="card-bg rounded-xl p-3 font-mono text-xs">
+        <div class="flex justify-between items-center pb-2 mb-2 border-b border-gray-800 text-gray-400">
+            <span>CONSOLE</span>
+            <button onclick="clearConsole()" class="text-red-400 hover:underline">CLEAR</button>
+        </div>
+        <div id="console-log" class="h-24 overflow-y-auto space-y-1 text-gray-300">
+            <div><span class="text-gray-500">00:00:00</span> ZENITSU VIP Engine Ready. Load save file to continue...</div>
+        </div>
+    </div>
+
+    <script>
+        function writeLog(msg, type = 'info') {
+            const consoleBox = document.getElementById('console-log');
+            const time = new Date().toLocaleTimeString();
+            let color = 'text-gray-300';
+            if (type === 'success') color = 'text-emerald-400';
+            if (type === 'error') color = 'text-red-400';
+
+            consoleBox.innerHTML += `<div><span class="text-gray-500">${time}</span> <span class="${color}">${msg}</span></div>`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        function clearConsole() {
+            document.getElementById('console-log').innerHTML = '';
+        }
+
+        function switchTab(tab) {
+            document.getElementById('panel-stats').classList.add('hidden');
+            document.getElementById('panel-regatta').classList.add('hidden');
+            document.getElementById(`panel-${tab}`).classList.remove('hidden');
+
+            document.getElementById('tab-stats').className = tab === 'stats' ? 'w-1/2 py-2 rounded-lg bg-gray-800 text-yellow-400' : 'w-1/2 py-2 rounded-lg text-gray-400';
+            document.getElementById('tab-regatta').className = tab === 'regatta' ? 'w-1/2 py-2 rounded-lg bg-gray-800 text-pink-400' : 'w-1/2 py-2 rounded-lg text-gray-400';
+        }
+
+        async function processSave(injectRegatta = false) {
+            const fileInput = document.getElementById('saveFileInput');
+            if (!fileInput.files[0]) {
+                writeLog('Error: Please select a save file first!', 'error');
+                return;
+            }
+
+            writeLog('Reading ZENITSU VIP save file payload...');
+            const formData = new FormData();
+            formData.append('saveFile', fileInput.files[0]);
+            formData.append('injectRegatta', injectRegatta);
+
+            const stats = {
+                tcash: document.getElementById('tcash').value,
+                coins: document.getElementById('coins').value,
+                level: document.getElementById('level').value,
+                m3lvl: document.getElementById('m3lvl').value,
+                lives: document.getElementById('lives').value,
+                help: document.getElementById('help').value
+            };
+            formData.append('stats', JSON.stringify(stats));
+
+            writeLog('Processing XML decode, stat injection, and re-encoding...');
+
+            try {
+                const response = await fetch('/api/process', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'player.xml';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    writeLog('ZENITSU VIP save file updated & downloaded!', 'success');
+                } else {
+                    const err = await response.json();
+                    writeLog(`Failed: ${err.message}`, 'error');
+                }
+            } catch (err) {
+                writeLog(`Network error: ${err.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+  </html>
+
