@@ -1,0 +1,15 @@
+{
+  "name": "zenitsu-vip-editor",
+  "version": "1.30.0",
+  "description": "ZENITSU VIP Save Editor Engine for Township",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0"
+  }
+}
+
