@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENITSU VIP Engine</title>
+    <script src="https://cdn.tailwindcss.com">
+        // ===== IGG / 1234 LOGIN SYSTEM =====
+        function showLoginError(message){
+            const error = document.getElementById('loginError');
+            error.textContent = message;
+            error.style.display = 'block';
+        }
+
+        function hideLoginError(){
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function unlockTool(){
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('mainTool').classList.remove('tool-locked');
+
+            if(typeof writeLog === 'function'){
+                writeLog('IGG secure login successful. Main tool unlocked.', 'text-cyan-400');
+            }
+        }
+
+        function processLogin(){
+            const username = document.getElementById('loginUser').value.trim();
+            const password = document.getElementById('loginPass').value.trim();
+
+            if(username === '' || password === ''){
+                showLoginError('Please enter username and password');
+                return;
+            }
+
+            if(username === 'IGG' && password === '1234'){
+                hideLoginError();
+
+                if(typeof writeLog === 'function'){
+                    writeLog('Authenticating IGG secure session...', 'text-yellow-400');
+                }
+
+                setTimeout(function(){
+                    unlockTool();
+                }, 350);
+            } else {
+                showLoginError('Wrong username or password');
+            }
+        }
+
+        function resetLogin(){
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+            hideLoginError();
+        }
+
+        window.addEventListener('load', function(){
+            document.getElementById('loginBtn').addEventListener('click', processLogin);
+            document.getElementById('resetBtn').addEventListener('click', resetLogin);
+
+            document.getElementById('loginUser').addEventListener('keydown', function(e){
+                if(e.key === 'Enter') processLogin();
+            });
+
+            document.getElementById('loginPass').addEventListener('keydown', function(e){
+                if(e.key === 'Enter') processLogin();
+            });
+
+            if(typeof writeLog === 'function'){
+                writeLog('Login gate active. Username: IGG | Password: 1234', 'text-purple-400');
+            }
+        });
+
+    </script>
+    <style>
+        :root {
+            --bg-dark: #0b0c10;
+            --card-base: #141622;
+            --card-border: #232738;
+            --neon-blue: #00e5ff;
+            --neon-purple: #ba55d3;
+            --neon-gold: #fbbf24;
+            --neon-pink: #ff0055;
+        }
+
+        body { 
+            background-color: var(--bg-dark); 
+            color: #ffffff; 
+            font-family: ui-sans-serif, system-ui, sans-serif;
+            perspective: 1000px;
+        }
+
+        /* Realistic 3D Box & Container Effects */
+        .card-3d {
+            background: linear-gradient(160deg, #1c1f30 0%, #11121c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 10px 20px -5px rgba(0, 0, 0, 0.7),
+                0 4px 6px -2px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
+                inset 0 -2px 4px 0 rgba(0, 0, 0, 0.6);
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+            transform-style: preserve-3d;
+        }
+
+        .card-3d:hover {
+            transform: translateY(-3px) rotateX(3deg);
+            box-shadow: 
+                0 15px 25px -5px rgba(0, 0, 0, 0.8),
+                0 8px 10px -2px rgba(0, 0, 0, 0.6),
+                inset 0 1px 2px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        /* 3D Interactive Buttons */
+        .btn-3d-connect {
+            background: linear-gradient(180deg, rgba(0, 229, 255, 0.25) 0%, rgba(0, 150, 200, 0.05) 100%);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            box-shadow: 0 4px 12px rgba(0, 229, 255, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            transition: all 0.15s ease-in-out;
+        }
+        .btn-3d-connect:hover {
+            background: linear-gradient(180deg, rgba(0, 229, 255, 0.4) 0%, rgba(0, 180, 230, 0.15) 100%);
+            box-shadow: 0 6px 18px rgba(0, 229, 255, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .btn-3d-connect:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(0, 229, 255, 0.2), inset 0 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn-3d-apply {
+            background: linear-gradient(180deg, rgba(186, 85, 211, 0.25) 0%, rgba(120, 40, 140, 0.05) 100%);
+            border: 1px solid var(--neon-purple);
+            color: var(--neon-purple);
+            box-shadow: 0 4px 12px rgba(186, 85, 211, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            transition: all 0.15s ease-in-out;
+        }
+        .btn-3d-apply:hover {
+            background: linear-gradient(180deg, rgba(186, 85, 211, 0.4) 0%, rgba(140, 50, 160, 0.15) 100%);
+            box-shadow: 0 6px 18px rgba(186, 85, 211, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .btn-3d-apply:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(186, 85, 211, 0.2), inset 0 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn-3d-pink {
+            background: linear-gradient(180deg, #ff2a75 0%, #bb0038 100%);
+            border: 1px solid #ff5588;
+            box-shadow: 0 6px 16px rgba(255, 0, 85, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            transition: all 0.15s ease-in-out;
+        }
+        .btn-3d-pink:hover {
+            background: linear-gradient(180deg, #ff4488 0%, #dd0044 100%);
+            box-shadow: 0 8px 22px rgba(255, 0, 85, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .btn-3d-pink:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(255, 0, 85, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 3D Tab Styles */
+        .tab-btn {
+            background: linear-gradient(180deg, #181a28 0%, #0e0f17 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+        .active-tab {
+            background: linear-gradient(180deg, #282c44 0%, #181a29 100%);
+            border-top: 2px solid var(--neon-pink);
+            border-bottom: 1px solid transparent;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(255, 0, 85, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Drawer Slide & Glass Depth */
+        .drawer-slide { 
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .glass-modal { 
+            background: rgba(16, 18, 28, 0.92); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Inputs 3D Inset */
+        .input-3d {
+            background: linear-gradient(180deg, #090a0f 0%, #11131c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+    
+        /* ===== FIXED LOGIN GATE ===== */
+        .login-overlay{
+            position:fixed;
+            inset:0;
+            background:rgba(2,4,10,.94);
+            backdrop-filter:blur(12px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:16px;
+            z-index:99999;
+        }
+        .login-overlay.hidden{
+            display:none;
+        }
+        .login-card{
+            width:100%;
+            max-width:360px;
+            border-radius:22px;
+            overflow:hidden;
+            position:relative;
+        }
+        .login-card::before{
+            content:'';
+            position:absolute;
+            inset:-2px;
+            background:linear-gradient(90deg,#ff0055,#ff8a00,#ffee00,#00ff88,#00e5ff,#7b2cff,#ff00aa,#ff0055);
+            background-size:400% 400%;
+            animation:borderRun 5s linear infinite;
+            z-index:0;
+        }
+        .login-inner{
+            position:relative;
+            z-index:1;
+            background:#0f172a;
+            border-radius:20px;
+            padding:24px;
+        }
+        .login-input{
+            width:100%;
+            padding:14px 16px;
+            border-radius:14px;
+            border:1px solid rgba(255,255,255,.08);
+            background:#020617;
+            color:#fff;
+            font-size:16px;
+            margin-bottom:14px;
+        }
+        .login-input:focus{
+            outline:none;
+            border-color:#00e5ff;
+            box-shadow:0 0 14px rgba(0,229,255,.25);
+        }
+        .login-actions{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+        }
+        .login-error{
+            display:none;
+            margin-top:12px;
+            text-align:center;
+            color:#f87171;
+            font-size:12px;
+            font-weight:700;
+        }
+        .tool-locked{
+            filter:blur(4px);
+            pointer-events:none;
+            user-select:none;
+        }
+
+    </style>
+</head>
+
+<body class="p-4 max-w-md mx-auto min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-card">
+            <div class="login-inner">
+                <div class="text-center mb-5">
+                    <div class="w-16 h-16 mx-auto mb-3 rounded-2xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-3xl shadow-lg shadow-cyan-500/20">⚡</div>
+                    <h2 class="text-xl font-extrabold text-cyan-300 tracking-wide">ZENITSU RGB ACCESS</h2>
+                    <p class="text-xs text-gray-400 mt-1">Use your secure credentials to unlock the tool</p>
+                </div>
+
+                <input id="loginUser" type="text" placeholder="Username" class="login-input">
+                <input id="loginPass" type="password" placeholder="Password" class="login-input">
+
+                <div class="login-actions">
+                    <button id="loginBtn" type="button" class="btn-3d-connect py-3 rounded-xl font-bold text-xs">LOGIN</button>
+                    <button id="resetBtn" type="button" class="btn-3d-apply py-3 rounded-xl font-bold text-xs">RESET</button>
+                </div>
+
+                <div id="loginError" class="login-error">Invalid username or password</div>
+
+                <div class="mt-4 text-center text-[11px] text-gray-500 font-mono">
+                    USERNAME: IGG • PASSWORD: 1234
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainTool" class="tool-locked">
+
+
+    <!-- OVERLAY & SIDE DRAWER (MENU) -->
+    <div id="drawer-overlay" onclick="toggleMenu()" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40"></div>
+    <div id="side-drawer" class="fixed top-0 left-0 h-full w-4/5 max-w-xs card-3d z-50 transform -translate-x-full drawer-slide p-5 flex flex-col justify-between overflow-y-auto">
+        <div>
+            <!-- Drawer Header -->
+            <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-amber-500 to-yellow-300 rounded-xl flex items-center justify-center font-extrabold text-xl text-black shadow-lg shadow-yellow-500/30 border border-yellow-200">Z</div>
+                    <div>
+                        <h2 class="font-extrabold text-lg leading-none tracking-wide text-yellow-400">TsVip</h2>
+                        <span class="text-[10px] text-gray-400 font-mono">SAVE EDITOR</span>
+                    </div>
+                </div>
+                <button onclick="toggleMenu()" class="text-gray-400 hover:text-white text-xl font-bold p-1">✕</button>
+            </div>
+
+            <!-- Language Switcher Grid (Supports EN, PT, ES, HI, ID, VI, RU, FR) -->
+            <div class="mb-6">
+                <span class="text-xs font-semibold text-gray-400 mb-2.5 block flex items-center gap-1.5">🌐 <span data-i18n="lang_title">Language</span></span>
+                <div class="grid grid-cols-4 gap-2 text-xs text-center font-semibold" id="lang-grid">
+                    <button onclick="setLanguage('en')" id="lang-en" class="p-2 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 shadow-sm">EN</button>
+                    <button onclick="setLanguage('pt')" id="lang-pt" class="p-2 rounded-lg input-3d text-gray-400 hover:text-white">PT</button>
+                    <button onclick="setLanguage('es')" id="lang-es" class="p-2 rounded-lg input-3d text-gray-400 hover:text-white">ES</button>
+                    <button onclick="setLanguage('hi')" id="lang-hi" class="p-2 rounded-lg input-3d text-gray-400 hover:text-white">HI</button>
+                    <button onclick="setLanguage('id')" id="lang-id" class="p-2 rounded-lg input-3d text-gray-400 hover:text-white">ID</button>
+                    <button onclick="setLanguage('vi')" id="lang-vi" class="p-2 rounded-lg input-3d text-gray-400 hover:text-white">VI</button>
+                    <button onclick="setLanguage('ru')" id="lang-ru" class="p-2 rounded-lg input-3d text-gray-400 hover:text-white">RU</button>
+                    <button onclick="setLanguage('fr')" id="lang-fr" class="p-2 rounded-lg input-3d text-gray-400 hover:text-white">FR</button>
+                </div>
+            </div>
+
+            <!-- Menu Navigation Links -->
+            <div class="space-y-2 text-sm font-semibold">
+                <button onclick="openModal('modal-settings')" class="w-full flex items-center gap-3 text-gray-300 hover:bg-white/5 p-2.5 rounded-xl transition input-3d"><span class="text-indigo-400">⚙️</span> <span data-i18n="menu_settings">Settings</span></button>
+                <button onclick="openModal('modal-account')" class="w-full flex items-center gap-3 text-gray-300 hover:bg-white/5 p-2.5 rounded-xl transition input-3d"><span class="text-blue-400">👤</span> <span data-i18n="menu_account">My Account</span></button>
+                <button onclick="openModal('modal-guide')" class="w-full flex items-center gap-3 text-gray-300 hover:bg-white/5 p-2.5 rounded-xl transition input-3d"><span class="text-teal-400">📖</span> <span data-i18n="menu_guide">User Guide</span></button>
+                <button onclick="openModal('modal-share')" class="w-full flex items-center gap-3 text-gray-300 hover:bg-white/5 p-2.5 rounded-xl transition input-3d"><span class="text-green-400">🔗</span> <span data-i18n="menu_share">Share App</span></button>
+                <button onclick="openModal('modal-feedback')" class="w-full flex items-center gap-3 text-gray-300 hover:bg-white/5 p-2.5 rounded-xl transition input-3d"><span class="text-pink-400">💬</span> <span data-i18n="menu_feedback">Feedback</span></button>
+                <button onclick="openModal('modal-about')" class="w-full flex items-center gap-3 text-gray-300 hover:bg-white/5 p-2.5 rounded-xl transition input-3d"><span class="text-cyan-400">ℹ️</span> <span data-i18n="menu_about">About App</span></button>
+            </div>
+        </div>
+
+        <!-- Menu Footer -->
+        <div class="pt-6 border-t border-gray-800/80 space-y-2 text-sm font-semibold">
+            <button onclick="actionLogout()" class="w-full flex items-center gap-3 text-pink-500 hover:bg-pink-500/10 p-2.5 rounded-xl transition input-3d"><span>🚪</span> <span data-i18n="menu_logout">Logout</span></button>
+            <button onclick="actionExit()" class="w-full flex items-center gap-3 text-yellow-400 hover:bg-white/5 p-2.5 rounded-xl transition input-3d"><span>⚡</span> <span data-i18n="menu_exit">Exit</span></button>
+            <div class="text-center text-[10px] text-gray-500 pt-2 font-mono">TsVip Engine v1.30-FIX-5</div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div>
+        <!-- Top App Bar -->
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-tr from-amber-500 to-yellow-300 rounded-2xl flex items-center justify-center font-black text-xl text-black shadow-lg shadow-yellow-500/20 border border-yellow-200">Z</div>
+                <div>
+                    <h1 class="font-extrabold text-lg leading-none text-yellow-400 tracking-wide">ZENITSU VIP</h1>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="text-[10px] text-gray-400 font-mono">v1.30-FIX-5</span>
+                        <span class="text-[10px] bg-emerald-900/60 text-emerald-400 px-2 py-0.5 rounded-full font-mono font-bold border border-emerald-500/30">&lt;&gt; CONNECTED</span>
+                    </div>
+                    <div class="text-[10px] text-yellow-400/90 font-mono font-semibold mt-1" id="ist-clock">🇮🇳 IST: Loading...</div>
+                </div>
+            </div>
+            <button onclick="toggleMenu()" class="p-2 text-gray-400 hover:text-white text-xl">⋮</button>
+        </div>
+
+        <!-- Target File Picker -->
+        <div class="card-3d p-3 rounded-2xl mb-4">
+            <label class="block text-[10px] font-bold text-gray-400 mb-1 tracking-wider uppercase" data-i18n="label_file">GAME SAVE FILE TARGET</label>
+            <input type="file" id="saveFileInput" accept=".xml,.bin" class="block w-full text-xs text-gray-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-yellow-500/20 file:text-yellow-300 cursor-pointer">
+        </div>
+
+        <!-- Action Control Buttons -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <button onclick="triggerConnect()" class="btn-3d-connect p-3 rounded-2xl font-bold text-xs flex flex-col items-center gap-1">
+                <span class="text-[10px] text-gray-300 font-normal" data-i18n="btn_sub_connect">🚀 Start Edit Game</span>
+                <span data-i18n="btn_connect">CONNECT</span>
+            </button>
+            <button onclick="submitSaveProcess()" class="btn-3d-apply p-3 rounded-2xl font-bold text-xs flex flex-col items-center gap-1">
+                <span class="text-[10px] text-gray-300 font-normal" data-i18n="btn_sub_apply">💾 Save and launch</span>
+                <span data-i18n="btn_apply">APPLY</span>
+            </button>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="flex card-3d p-1 rounded-2xl mb-4 text-[11px] font-bold text-gray-400 justify-between gap-1">
+            <button onclick="switchTab('stats')" id="tab-stats" class="w-1/5 py-2.5 rounded-xl active-tab tab-btn flex flex-col items-center gap-1"><span>✔️</span><span data-i18n="tab_stats">STATS</span></button>
+            <button onclick="switchTab('unlocks')" id="tab-unlocks" class="w-1/5 py-2.5 rounded-xl tab-btn flex flex-col items-center gap-1"><span>🔓</span><span data-i18n="tab_unlocks">UNLOCKS</span></button>
+            <button onclick="switchTab('tools')" id="tab-tools" class="w-1/5 py-2.5 rounded-xl tab-btn flex flex-col items-center gap-1"><span>🔧</span><span data-i18n="tab_tools">TOOLS</span></button>
+            <button onclick="switchTab('regatta')" id="tab-regatta" class="w-1/5 py-2.5 rounded-xl tab-btn flex flex-col items-center gap-1"><span>⛵</span><span data-i18n="tab_regatta">REGATTA</span></button>
+            <button onclick="switchTab('vip')" id="tab-vip" class="w-1/5 py-2.5 rounded-xl tab-btn flex flex-col items-center gap-1"><span>💎</span><span data-i18n="tab_vip">VIP</span></button>
+        </div>
+
+        <!-- TAB 1: STATS PANEL -->
+        <div id="panel-stats" class="grid grid-cols-2 gap-3 mb-4">
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-yellow-500 font-bold">💰 T-CASH</span><input type="checkbox" id="chk-tcash" checked class="accent-yellow-500"></div>
+                <input type="number" id="tcash" value="99689267" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-yellow-600 font-bold">🪙 COINS</span><input type="checkbox" id="chk-coins" checked class="accent-yellow-600"></div>
+                <input type="number" id="coins" value="1809119" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-cyan-400 font-bold">⭐ LEVEL</span><input type="checkbox" id="chk-level" checked class="accent-cyan-400"></div>
+                <input type="number" id="level" value="1090" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-purple-400 font-bold">🧩 M3 LVL</span><input type="checkbox" id="chk-m3lvl" checked class="accent-purple-400"></div>
+                <input type="number" id="m3lvl" value="10000" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-blue-400 font-bold">🏅 1ST WIN</span><input type="checkbox" id="chk-firstwin" checked class="accent-blue-400"></div>
+                <input type="number" id="firstwin" value="8121" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-pink-500 font-bold">❤️ LIVES</span><input type="checkbox" id="chk-lives" checked class="accent-pink-500"></div>
+                <input type="number" id="lives" value="5629" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-teal-400 font-bold">🤝 HELP</span><input type="checkbox" id="chk-help" checked class="accent-teal-400"></div>
+                <input type="number" id="help" value="55090" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+            <div class="card-3d p-3 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-1"><span class="text-xs text-indigo-400 font-bold">🎴 CARDS</span><input type="checkbox" id="chk-cards" checked class="accent-indigo-400"></div>
+                <input type="number" id="cards" value="16" class="w-full bg-transparent font-black text-lg outline-none text-white">
+            </div>
+        </div>
+
+        <!-- TAB 2: UNLOCKS PANEL -->
+        <div id="panel-unlocks" class="hidden card-3d p-4 rounded-2xl mb-4 space-y-3">
+            <h2 class="font-bold text-sm text-purple-400 mb-2" data-i18n="unlocks_title">Township Game Unlocks</h2>
+            <label class="flex justify-between items-center input-3d p-3 rounded-xl cursor-pointer">
+                <span class="text-xs font-semibold" data-i18n="unlock_buildings">🏢 Unlock All Buildings & Factories</span>
+                <input type="checkbox" id="chk-unlock-buildings" class="accent-purple-500">
+            </label>
+            <label class="flex justify-between items-center input-3d p-3 rounded-xl cursor-pointer">
+                <span class="text-xs font-semibold" data-i18n="unlock_expansions">🗺️ Unlock All Land Expansions</span>
+                <input type="checkbox" id="chk-unlock-expansions" class="accent-purple-500">
+            </label>
+            <label class="flex justify-between items-center input-3d p-3 rounded-xl cursor-pointer">
+                <span class="text-xs font-semibold" data-i18n="unlock_skins">🎨 Unlock All Town Skins & Sets</span>
+                <input type="checkbox" id="chk-unlock-skins" class="accent-purple-500">
+            </label>
+        </div>
+
+        <!-- TAB 3: TOOLS PANEL -->
+        <div id="panel-tools" class="hidden card-3d p-4 rounded-2xl mb-4 space-y-3">
+            <h2 class="font-bold text-sm text-cyan-400 mb-2" data-i18n="tools_title">Save Integrity Tools</h2>
+            <label class="flex justify-between items-center input-3d p-3 rounded-xl cursor-pointer">
+                <span class="text-xs font-semibold" data-i18n="tool_antiban">🛡️ Enable Anti-Ban Protection Bypass</span>
+                <input type="checkbox" id="chk-tool-antiban" checked class="accent-cyan-400">
+            </label>
+            <label class="flex justify-between items-center input-3d p-3 rounded-xl cursor-pointer">
+                <span class="text-xs font-semibold" data-i18n="tool_instant">⚡ Instant Factory Production</span>
+                <input type="checkbox" id="chk-tool-instant" class="accent-cyan-400">
+            </label>
+        </div>
+
+        <!-- TAB 4: REGATTA PANEL -->
+        <div id="panel-regatta" class="hidden card-3d p-5 rounded-2xl mb-4 text-center">
+            <h2 class="font-extrabold text-lg mb-1" data-i18n="regatta_title">Regatta Tasks</h2>
+            <p class="text-xs text-gray-400 mb-6" data-i18n="regatta_desc">Inject 100 high-score tasks (150 points) into your Regatta. Works only if you have an active Regatta.</p>
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 card-3d rounded-full flex items-center justify-center text-4xl border border-pink-500/40 shadow-lg shadow-pink-500/20">⛵</div>
+            </div>
+            <button onclick="submitSaveProcess(true)" class="btn-3d-pink w-full py-3.5 rounded-2xl font-black text-white text-sm" data-i18n="btn_inject">
+                Inject 100 Tasks
+            </button>
+        </div>
+
+        <!-- TAB 5: VIP PANEL -->
+        <div id="panel-vip" class="hidden card-3d p-4 rounded-2xl mb-4 text-center space-y-3">
+            <h2 class="font-bold text-sm text-yellow-400" data-i18n="vip_title">VIP Premium Features</h2>
+            <p class="text-xs text-gray-400" data-i18n="vip_desc">Unlocks Golden Ticket, Max Zoo Level, and Unlimited Booster Duration.</p>
+            <label class="flex justify-between items-center input-3d p-3 rounded-xl cursor-pointer">
+                <span class="text-xs font-semibold" data-i18n="vip_golden">🎟️ Activate Golden Ticket Season Pass</span>
+                <input type="checkbox" id="chk-vip-goldenticket" checked class="accent-yellow-400">
+            </label>
+        </div>
+    </div>
+
+    <!-- Terminal Output -->
+    <div class="card-3d rounded-2xl p-3 font-mono text-xs shadow-inner">
+        <div class="flex justify-between items-center pb-2 mb-2 border-b border-gray-800/80 text-[11px] text-gray-400">
+            <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block shadow-sm"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 inline-block shadow-sm"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block shadow-sm"></span>
+                <span class="ml-1 font-bold text-yellow-400">ZENITSU CONSOLE</span>
+            </div>
+            <div class="flex gap-3 text-[10px]">
+                <button onclick="copyConsole()" class="hover:text-cyan-400">📋 COPY</button>
+                <button onclick="clearConsole()" class="text-pink-500 hover:underline">🗑️ CLEAR</button>
+            </div>
+        </div>
+        <div id="console-log" class="h-24 overflow-y-auto space-y-1 text-gray-300 text-[11px]"></div>
+    </div>
+
+    <!-- DYNAMIC MODALS FOR DRAWER LINKS -->
+    <div id="modal-container" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        
+        <!-- Settings Modal -->
+        <div id="modal-settings" class="modal-box hidden glass-modal p-5 rounded-2xl max-w-sm w-full space-y-4">
+            <div class="flex justify-between items-center"><h3 class="font-bold text-base text-indigo-400">⚙️ Settings</h3><button onclick="closeModals()" class="text-gray-400">✕</button></div>
+            <div class="space-y-3 text-xs">
+                <label class="flex justify-between items-center input-3d p-2.5 rounded-xl"><span class="text-gray-300">Auto-Backup Save Files</span><input type="checkbox" checked class="accent-indigo-500"></label>
+                <label class="flex justify-between items-center input-3d p-2.5 rounded-xl"><span class="text-gray-300">Enable Fast Zip Compression</span><input type="checkbox" checked class="accent-indigo-500"></label>
+            </div>
+            <button onclick="closeModals()" class="w-full py-2 bg-indigo-600 font-bold rounded-xl text-xs">Save Settings</button>
+        </div>
+
+        <!-- Account Modal -->
+        <div id="modal-account" class="modal-box hidden glass-modal p-5 rounded-2xl max-w-sm w-full space-y-4">
+            <div class="flex justify-between items-center"><h3 class="font-bold text-base text-blue-400">👤 My Account</h3><button onclick="closeModals()" class="text-gray-400">✕</button></div>
+            <div class="text-xs space-y-2 input-3d p-3 rounded-xl">
+                <div><span class="text-gray-400">License Status:</span> <span class="text-emerald-400 font-bold">VIP LIFETIME UNLOCKED</span></div>
+                <div><span class="text-gray-400">User ID:</span> <span class="font-mono text-gray-200">ZENITSU-88942-IN</span></div>
+            </div>
+            <button onclick="closeModals()" class="w-full py-2 bg-blue-600 font-bold rounded-xl text-xs">Close</button>
+        </div>
+
+        <!-- User Guide Modal -->
+        <div id="modal-guide" class="modal-box hidden glass-modal p-5 rounded-2xl max-w-sm w-full space-y-4">
+            <div class="flex justify-between items-center"><h3 class="font-bold text-base text-teal-400">📖 User Guide</h3><button onclick="closeModals()" class="text-gray-400">✕</button></div>
+            <div class="text-xs space-y-2 text-gray-300 max-h-48 overflow-y-auto pr-1">
+                <p>1. Tap <strong>Choose File</strong> and load your <code>player.xml</code> file.</p>
+                <p>2. Choose desired stats and values inside the tabs.</p>
+                <p>3. Tap <strong>APPLY</strong> to generate your patched compressed save file ready for injection.</p>
+            </div>
+            <button onclick="closeModals()" class="w-full py-2 bg-teal-600 font-bold rounded-xl text-xs">Got it</button>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="modal-share" class="modal-box hidden glass-modal p-5 rounded-2xl max-w-sm w-full space-y-4">
+            <div class="flex justify-between items-center"><h3 class="font-bold text-base text-green-400">🔗 Share App</h3><button onclick="closeModals()" class="text-gray-400">✕</button></div>
+            <input type="text" readonly value="https://zenitsu-vip-editor.onrender.com" class="w-full bg-black/50 p-2.5 rounded-xl border border-gray-700 text-xs font-mono text-gray-300">
+            <button onclick="navigator.clipboard.writeText('https://zenitsu-vip-editor.onrender.com'); alert('Link copied!');" class="w-full py-2 bg-green-600 font-bold rounded-xl text-xs">Copy Share Link</button>
+        </div>
+
+        <!-- Feedback Modal -->
+        <div id="modal-feedback" class="modal-box hidden glass-modal p-5 rounded-2xl max-w-sm w-full space-y-4">
+            <div class="flex justify-between items-center"><h3 class="font-bold text-base text-pink-400">💬 Feedback</h3><button onclick="closeModals()" class="text-gray-400">✕</button></div>
+            <textarea placeholder="Report bugs or submit requests..." class="w-full h-24 bg-black/50 border border-gray-700 p-2.5 rounded-xl text-xs text-white outline-none"></textarea>
+            <button onclick="alert('Feedback submitted!'); closeModals();" class="w-full py-2 bg-pink-600 font-bold rounded-xl text-xs">Send Feedback</button>
+        </div>
+
+        <!-- About Modal -->
+        <div id="modal-about" class="modal-box hidden glass-modal p-5 rounded-2xl max-w-sm w-full space-y-4">
+            <div class="flex justify-between items-center"><h3 class="font-bold text-base text-cyan-400">ℹ️ About App</h3><button onclick="closeModals()" class="text-gray-400">✕</button></div>
+            <div class="text-xs text-gray-300 space-y-1">
+                <p class="font-bold text-yellow-400">ZENITSU VIP ENGINE</p>
+                <p>Version: 1.30-FIX-5</p>
+                <p>Engine Architecture: Node.js & Zlib Inflate/Deflate Core</p>
+            </div>
+            <button onclick="closeModals()" class="w-full py-2 bg-cyan-600 font-bold rounded-xl text-xs">Close</button>
+        </div>
+    </div>
+
+    <!-- UI Logic Script -->
+    <script>
+        let currentTab = 'stats';
+        let currentLang = 'en';
+
+        // Full i18n Translations Dictionary covering all 8 languages visible in the UI menu
+        const translations = {
+            en: {
+                lang_title: "Language", menu_settings: "Settings", menu_account: "My Account", menu_guide: "User Guide", menu_share: "Share App", menu_feedback: "Feedback", menu_about: "About App", menu_logout: "Logout", menu_exit: "Exit", label_file: "GAME SAVE FILE TARGET", btn_sub_connect: "🚀 Start Edit Game", btn_connect: "CONNECT", btn_sub_apply: "💾 Save and launch", btn_apply: "APPLY", tab_stats: "STATS", tab_unlocks: "UNLOCKS", tab_tools: "TOOLS", tab_regatta: "REGATTA", tab_vip: "VIP", unlocks_title: "Township Game Unlocks", unlock_buildings: "🏢 Unlock All Buildings & Factories", unlock_expansions: "🗺️ Unlock All Land Expansions", unlock_skins: "🎨 Unlock All Town Skins & Sets", tools_title: "Save Integrity Tools", tool_antiban: "🛡️ Enable Anti-Ban Protection Bypass", tool_instant: "⚡ Instant Factory Production", regatta_title: "Regatta Tasks", regatta_desc: "Inject 100 high-score tasks (150 points) into your Regatta. Works only if you have an active Regatta.", btn_inject: "Inject 100 Tasks", vip_title: "VIP Premium Features", vip_desc: "Unlocks Golden Ticket, Max Zoo Level, and Unlimited Booster Duration.", vip_golden: "🎟️ Activate Golden Ticket Season Pass"
+            },
+            pt: {
+                lang_title: "Idioma", menu_settings: "Configurações", menu_account: "Minha Conta", menu_guide: "Guia do Usuário", menu_share: "Compartilhar App", menu_feedback: "Feedback", menu_about: "Sobre o App", menu_logout: "Sair", menu_exit: "Fechar", label_file: "ARQUIVO DE SALVAMENTO ALVO", btn_sub_connect: "🚀 Iniciar Edição do Jogo", btn_connect: "CONECTAR", btn_sub_apply: "💾 Salvar e Lançar", btn_apply: "APLICAR", tab_stats: "STATS", tab_unlocks: "DESBLOQUEIOS", tab_tools: "FERRAMENTAS", tab_regatta: "REGATA", tab_vip: "VIP", unlocks_title: "Desbloqueios de Township", unlock_buildings: "🏢 Desbloquear Todos os Prédios", unlock_expansions: "🗺️ Desbloquear Expansões", unlock_skins: "🎨 Desbloquear Visuais da Cidade", tools_title: "Ferramentas do Sistema", tool_antiban: "🛡️ Ativar Anti-Ban Bypass", tool_instant: "⚡ Produção Instantânea", regatta_title: "Tarefas de Regata", regatta_desc: "Injete 100 tarefas de alta pontuação (150 pontos) na sua Regata.", btn_inject: "Injetar 100 Tarefas", vip_title: "Recursos VIP Premium", vip_desc: "Desbloqueia Passe Dourado e Bônus Ilimitados.", vip_golden: "🎟️ Ativar Passe Dourado"
+            },
+            es: {
+                lang_title: "Idioma", menu_settings: "Ajustes", menu_account: "Mi Cuenta", menu_guide: "Guía de Usuario", menu_share: "Compartir App", menu_feedback: "Comentarios", menu_about: "Acerca de", menu_logout: "Cerrar Sesión", menu_exit: "Salir", label_file: "ARCHIVO DE GUARDADO OBJETIVO", btn_sub_connect: "🚀 Iniciar Edición", btn_connect: "CONECTAR", btn_sub_apply: "💾 Guardar y Lanzar", btn_apply: "APLICAR", tab_stats: "ESTADÍSTICAS", tab_unlocks: "DESBLOQUEOS", tab_tools: "HERRAMIENTAS", tab_regatta: "REGATA", tab_vip: "VIP", unlocks_title: "Desbloqueos del Juego", unlock_buildings: "🏢 Desbloquear Edificios", unlock_expansions: "🗺️ Desbloquear Expansiones", unlock_skins: "🎨 Desbloquear Aspectos", tools_title: "Herramientas del Sistema", tool_antiban: "🛡️ Activar Anti-Ban Bypass", tool_instant: "⚡ Producción Instantánea", regatta_title: "Tareas de Regata", regatta_desc: "Inyecta 100 tareas de alta puntuación en tu Regata.", btn_inject: "Inyectar 100 Tareas", vip_title: "Características VIP Premium", vip_desc: "Desbloquea Boleto Dorado y Bonificaciones.", vip_golden: "🎟️ Activar Boleto Dorado"
+            },
+            hi: {
+                lang_title: "भाषा (Language)", menu_settings: "सेटिंग्स (Settings)", menu_account: "मेरा खाता (Account)", menu_guide: "उपयोगकर्ता गाइड", menu_share: "ऐप शेयर करें", menu_feedback: "प्रतिक्रिया (Feedback)", menu_about: "ऐप के बारे में", menu_logout: "लॉगआउट", menu_exit: "बाहर निकलें", label_file: "गेम सेव फ़ाइल चुनें", btn_sub_connect: "🚀 एडिट शुरू करें", btn_connect: "कनेक्ट करें", btn_sub_apply: "💾 सेव करें और चलाएं", btn_apply: "अप्लाई करें", tab_stats: "स्टैट्स", tab_unlocks: "अनलॉक्स", tab_tools: "टूल्स", tab_regatta: "रेगाटा", tab_vip: "वीआईपी", unlocks_title: "टाउनशिप गेम अनलॉक्स", unlock_buildings: "🏢 सभी सुविधाएं अनलॉक करें", unlock_expansions: "🗺️ सभी जमीनों का विस्तार करें", unlock_skins: "🎨 सभी टाउन स्किन अनलॉक करें", tools_title: "सिस्टम टूल्स", tool_antiban: "🛡️ एंटी-बैन बायपास चालू करें", tool_instant: "⚡ इंस्टेंट फ़ैक्टरी प्रोडक्शन", regatta_title: "रेगाटा टास्क", regatta_desc: "अपनी रेगाटा में 100 हाई-स्कोर टास्क जोड़ें।", btn_inject: "100 टास्क जोड़ें", vip_title: "वीआईपी प्रीमियम फीचर्स", vip_desc: "गोल्डन टिकट और असीमित बूस्टर अनलॉक करें।", vip_golden: "🎟️ पास सक्रिय करें"
+            },
+            id: {
+                lang_title: "Bahasa", menu_settings: "Pengaturan", menu_account: "Akun Saya", menu_guide: "Panduan Pengguna", menu_share: "Bagikan Aplikasi", menu_feedback: "Umpan Balik", menu_about: "Tentang Aplikasi", menu_logout: "Keluar", menu_exit: "Tutup", label_file: "TARGET FILE SIMPANAN GAME", btn_sub_connect: "🚀 Mulai Edit Game", btn_connect: "HUBUNGKAN", btn_sub_apply: "💾 Simpan & Jalankan", btn_apply: "TERAPKAN", tab_stats: "STATISTIK", tab_unlocks: "BUKA KUNCI", tab_tools: "ALAT", tab_regatta: "REGATA", tab_vip: "VIP", unlocks_title: "Fitur Pembuka Game", unlock_buildings: "🏢 Buka Semua Bangunan", unlock_expansions: "🗺️ Buka Ekspansi Lahan", unlock_skins: "🎨 Buka Skin Kota", tools_title: "Alat Integritas File", tool_antiban: "🛡️ Aktifkan Anti-Ban Bypass", tool_instant: "⚡ Produksi Pabrik Instan", regatta_title: "Tugas Regata", regatta_desc: "Suntikkan 100 tugas skor tinggi (150 poin) ke Regata Anda.", btn_inject: "Suntikkan 100 Tugas", vip_title: "Fitur VIP Premium", vip_desc: "Buka Tiket Emas dan Durasi Booster Tanpa Batas.", vip_golden: "🎟️ Aktifkan Tiket Emas"
+            },
+            vi: {
+                lang_title: "Ngôn ngữ", menu_settings: "Cài đặt", menu_account: "Tài khoản", menu_guide: "Hướng dẫn", menu_share: "Chia sẻ ứng dụng", menu_feedback: "Phản hồi", menu_about: "Giới thiệu", menu_logout: "Đăng xuất", menu_exit: "Thoát", label_file: "TỆP LƯU GAME TARGET", btn_sub_connect: "🚀 Bắt đầu chỉnh sửa", btn_connect: "KẾT NỐI", btn_sub_apply: "💾 Lưu & Khởi chạy", btn_apply: "ÁP DỤNG", tab_stats: "CHỈ SỐ", tab_unlocks: "MỞ KHÓA", tab_tools: "CÔNG CỤ", tab_regatta: "REGATTA", tab_vip: "VIP", unlocks_title: "Mở khóa Township", unlock_buildings: "🏢 Mở khóa toàn bộ công trình", unlock_expansions: "🗺️ Mở rộng toàn bộ đất", unlock_skins: "🎨 Mở khóa giao diện thành phố", tools_title: "Công cụ bảo vệ", tool_antiban: "🛡️ Bật Anti-Ban Bypass", tool_instant: "⚡ Sản xuất tức thì", regatta_title: "Nhiệm vụ Regatta", regatta_desc: "Thêm 100 nhiệm vụ điểm cao (150 điểm) vào Regatta.", btn_inject: "Thêm 100 Nhiệm vụ", vip_title: "Tính năng VIP", vip_desc: "Mở khóa Vé Vàng và Tăng tốc không giới hạn.", vip_golden: "🎟️ Kích hoạt Vé Vàng"
+            },
+            ru: {
+                lang_title: "Язык", menu_settings: "Настройки", menu_account: "Мой Аккаунт", menu_guide: "Руководство", menu_share: "Поделиться", menu_feedback: "Отзыв", menu_about: "О приложении", menu_logout: "Выйти", menu_exit: "Закрыть", label_file: "ЦЕЛЕВОЙ ФАЙЛ СОХРАНЕНИЯ", btn_sub_connect: "🚀 Начать редактирование", btn_connect: "ПОДКЛЮЧИТЬ", btn_sub_apply: "💾 Сохранить и запустить", btn_apply: "ПРИМЕНИТЬ", tab_stats: "СТАТИСТИКА", tab_unlocks: "РАЗБЛОКИРОВКА", tab_tools: "ИНСТРУМЕНТЫ", tab_regatta: "РЕГАТА", tab_vip: "VIP", unlocks_title: "Разблокировка игры", unlock_buildings: "🏢 Разблокировать все здания", unlock_expansions: "🗺️ Разблокировать расширения земли", unlock_skins: "🎨 Разблокировать скины города", tools_title: "Инструменты целостности", tool_antiban: "🛡️ Включить Anti-Ban Bypass", tool_instant: "⚡ Мгновенное производство", regatta_title: "Задания Регаты", regatta_desc: "Внедрите 100 заданий с высоким баллом (150 очков) в вашу Регату.", btn_inject: "Внедрить 100 заданий", vip_title: "VIP Премиум функции", vip_desc: "Разблокирует Золотой Билет и неограниченные бустеры.", vip_golden: "🎟️ Активировать Золотой Билет"
+            },
+            fr: {
+                lang_title: "Langue", menu_settings: "Paramètres", menu_account: "Mon Compte", menu_guide: "Guide Utilisateur", menu_share: "Partager l'application", menu_feedback: "Avis", menu_about: "À propos", menu_logout: "Déconnexion", menu_exit: "Quitter", label_file: "FICHIER DE SAUVEGARDE CIBLE", btn_sub_connect: "🚀 Lancer la modification", btn_connect: "CONNECTER", btn_sub_apply: "💾 Sauvegarder & Lancer", btn_apply: "APPLIQUER", tab_stats: "STATS", tab_unlocks: "DÉBLOCAGES", tab_tools: "OUTILS", tab_regatta: "RÉGATE", tab_vip: "VIP", unlocks_title: "Déblocages du Jeu", unlock_buildings: "🏢 Débloquer tous les bâtiments", unlock_expansions: "🗺️ Débloquer toutes les extensions", unlock_skins: "🎨 Débloquer tous les skins", tools_title: "Outils Système", tool_antiban: "🛡️ Activer Anti-Ban Bypass", tool_instant: "⚡ Production Instantanée", regatta_title: "Tâches de Régate", regatta_desc: "Injectez 100 tâches à score élevé (150 points) dans votre Régate.", btn_inject: "Injecter 100 Tâches", vip_title: "Fonctionnalités VIP Premium", vip_desc: "Débloque le Ticket d'Or et des Boosters illimités.", vip_golden: "🎟️ Activer le Ticket d'Or"
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const dict = translations[lang] || translations.en;
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.innerText = dict[key];
+            });
+
+            // Highlight Selected Language Pill
+            document.querySelectorAll('#lang-grid button').forEach(b => {
+                b.className = "p-2 rounded-lg input-3d text-gray-400 hover:text-white";
+            });
+            const activeBtn = document.getElementById(`lang-${lang}`);
+            if (activeBtn) activeBtn.className = "p-2 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 shadow-sm";
+
+            writeLog(`System language switched to: ${lang.toUpperCase()}`, 'text-yellow-400');
+        }
+
+        function getISTTime() {
+            return new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        function updateISTClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
+            const clockElement = document.getElementById('ist-clock');
+            if (clockElement) clockElement.innerText = `🇮🇳 ${dateStr} | ${timeStr} IST`;
+        }
+
+         setInterval(updateISTClock, 1000);
+        updateISTClock();
+
+        function writeLog(msg, colorClass = 'text-gray-300') {
+            const consoleBox = document.getElementById('console-log');
+            const time = getISTTime();
+            consoleBox.innerHTML += `<div><span class="text-gray-500">${time}</span> <span class="${colorClass}">${msg}</span></div>`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        writeLog('ZENITSU VIP Engine running...');
+        writeLog('Connected: . Save file initialized.', 'text-emerald-400');
+        writeLog('Ready to edit!', 'text-emerald-400');
+
+        function toggleMenu() {
+            document.getElementById('side-drawer').classList.toggle('-translate-x-full');
+            document.getElementById('drawer-overlay').classList.toggle('hidden');
+        }
+
+        function openModal(id) {
+            toggleMenu();
+            document.getElementById('modal-container').classList.remove('hidden');
+            document.querySelectorAll('.modal-box').forEach(m => m.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModals() {
+            document.getElementById('modal-container').classList.add('hidden');
+        }
+
+        function actionLogout() {
+            toggleMenu();
+            writeLog('User session logged out.', 'text-pink-400');
+            alert('Logged out successfully.');
+        }
+
+        function actionExit() {
+            toggleMenu();
+            writeLog('Shutting down engine hooks...', 'text-red-400');
+            alert('ZENITSU VIP Session Closed.');
+        }
+
+        function clearConsole() { document.getElementById('console-log').innerHTML = ''; }
+        function copyConsole() {
+            navigator.clipboard.writeText(document.getElementById('console-log').innerText);
+            writeLog('Console output copied!', 'text-cyan-400');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['stats', 'unlocks', 'tools', 'regatta', 'vip'].forEach(t => {
+                document.getElementById(`panel-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('active-tab');
+            });
+            document.getElementById(`panel-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).classList.add('active-tab');
+        }
+
+        function triggerConnect() {
+            writeLog('Closing game process...');
+            setTimeout(() => writeLog('Connecting and parsing target XML...'), 300);
+            setTimeout(() => writeLog('Connected: Save file loaded successfully.', 'text-emerald-400'), 600);
+        }
+
+        async function submitSaveProcess(isRegattaInject = false) {
+            const fileInput = document.getElementById('saveFileInput');
+            if (!fileInput.files[0]) {
+                writeLog('Error: Please select your player.xml save file first!', 'text-red-400');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('saveFile', fileInput.files[0]);
+            formData.append('activeTab', currentTab);
+            formData.append('injectRegatta', isRegattaInject);
+
+            const payload = {
+                stats: {
+                    tcash_active: document.getElementById('chk-tcash').checked,
+                    tcash: document.getElementById('tcash').value,
+                    coins_active: document.getElementById('chk-coins').checked,
+                    coins: document.getElementById('coins').value,
+                    level_active: document.getElementById('chk-level').checked,
+                    level: document.getElementById('level').value,
+                    m3lvl_active: document.getElementById('chk-m3lvl').checked,
+                    m3lvl: document.getElementById('m3lvl').value,
+                    firstwin_active: document.getElementById('chk-firstwin').checked,
+                    firstwin: document.getElementById('firstwin').value,
+                    lives_active: document.getElementById('chk-lives').checked,
+                    lives: document.getElementById('lives').value,
+                    help_active: document.getElementById('chk-help').checked,
+                    help: document.getElementById('help').value,
+                    cards_active: document.getElementById('chk-cards').checked,
+                    cards: document.getElementById('cards').value
+                },
+                unlocks: {
+                    allBuildings: document.getElementById('chk-unlock-buildings').checked,
+                    allExpansions: document.getElementById('chk-unlock-expansions').checked,
+                    allSkins: document.getElementById('chk-unlock-skins').checked
+                },
+                tools: {
+                    antiBan: document.getElementById('chk-tool-antiban').checked,
+                    instantProduce: document.getElementById('chk-tool-instant').checked
+                },
+                vip: {
+                    goldenTicket: document.getElementById('chk-vip-goldenticket').checked
+                }
+            };
+
+            formData.append('payload', JSON.stringify(payload));
+            writeLog('Modifying save payload and re-compressing zlib stream...');
+
+            try {
+                const response = await fetch('/api/process', { method: 'POST', body: formData });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'player.xml';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    writeLog('Save modifications successfully compiled & downloaded!', 'text-emerald-400');
+                } else {
+                    const err = await response.json();
+                    writeLog(`Execution Error: ${err.message}`, 'text-red-400');
+                }
+            } catch (err) {
+                writeLog(`Network Failure: ${err.message}`, 'text-red-400');
+            }
+        }
+    
+        // ===== IGG / 1234 LOGIN SYSTEM =====
+        function showLoginError(message){
+            const error = document.getElementById('loginError');
+            error.textContent = message;
+            error.style.display = 'block';
+        }
+
+        function hideLoginError(){
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function unlockTool(){
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('mainTool').classList.remove('tool-locked');
+
+            if(typeof writeLog === 'function'){
+                writeLog('IGG secure login successful. Main tool unlocked.', 'text-cyan-400');
+            }
+        }
+
+        function processLogin(){
+            const username = document.getElementById('loginUser').value.trim();
+            const password = document.getElementById('loginPass').value.trim();
+
+            if(username === '' || password === ''){
+                showLoginError('Please enter username and password');
+                return;
+            }
+
+            if(username === 'IGG' && password === '1234'){
+                hideLoginError();
+
+                if(typeof writeLog === 'function'){
+                    writeLog('Authenticating IGG secure session...', 'text-yellow-400');
+                }
+
+                setTimeout(function(){
+                    unlockTool();
+                }, 350);
+            } else {
+                showLoginError('Wrong username or password');
+            }
+        }
+
+        function resetLogin(){
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+            hideLoginError();
+        }
+
+        window.addEventListener('load', function(){
+            document.getElementById('loginBtn').addEventListener('click', processLogin);
+            document.getElementById('resetBtn').addEventListener('click', resetLogin);
+
+            document.getElementById('loginUser').addEventListener('keydown', function(e){
+                if(e.key === 'Enter') processLogin();
+            });
+
+            document.getElementById('loginPass').addEventListener('keydown', function(e){
+                if(e.key === 'Enter') processLogin();
+            });
+
+            if(typeof writeLog === 'function'){
+                writeLog('Login gate active. Username: IGG | Password: 1234', 'text-purple-400');
+            }
+        });
+
+    </script>
+    </div>
+</body>
+</html>
