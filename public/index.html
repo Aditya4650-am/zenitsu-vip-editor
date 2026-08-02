@@ -136,3 +136,170 @@
     </div>
   </div>
   
+  <!-- MAIN APP CONTENT -->
+  <div id="app-container">
+    <header>
+      <div class="brand">
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <h2>👑 IGG VIP TOOL</h2>
+      </div>
+      <div id="clock" style="font-family:var(--font-mono); color:var(--neon-gold);">16:54:23</div>
+    </header>
+
+    <main>
+      <!-- Dashboard / Currencies -->
+      <div class="section-head" id="sec-main">🏠 Dashboard & Core Currencies</div>
+      <div class="grid">
+        <div class="card" id="sec-coins">
+          <h4>🪙 Township Coins</h4>
+          <p>Inject infinite coins to township balance.</p>
+          <input type="number" id="coin-in" value="999999">
+          <button class="btn-act" onclick="act('Coins Applied!')">Apply Coins</button>
+        </div>
+        <div class="card" id="sec-tcash">
+          <h4>💵 Township Cash</h4>
+          <p>Inject premium T-Cash directly.</p>
+          <input type="number" id="cash-in" value="50000">
+          <button class="btn-act" onclick="act('T-Cash Applied!')">Apply Cash</button>
+        </div>
+        <div class="card">
+          <h4>⚡ Instant Speedup</h4>
+          <p>Bypass all waiting timers instantly.</p>
+          <button class="btn-act" onclick="act('Speedup Enabled!')">Enable Speedup</button>
+        </div>
+      </div>
+
+      <!-- Customization -->
+      <div class="section-head" id="sec-skins">👑 Skins & Customization</div>
+      <div class="grid">
+        <div class="card">
+          <h4>👑 Helipad & Train Skins</h4>
+          <p>Unlock all event & seasonal vehicle skins.</p>
+          <button class="btn-act" onclick="act('All Skins Unlocked!')">Unlock Skins</button>
+        </div>
+        <div class="card" id="sec-badges">
+          <h4>🏅 Town Badges</h4>
+          <p>Unlock elite VIP badges on profile.</p>
+          <button class="btn-act" onclick="act('All Badges Unlocked!')">Unlock Badges</button>
+        </div>
+        <div class="card" id="sec-style">
+          <h4>🎨 UI Themes & Styles</h4>
+          <p>Switch dashboard aura & RGB styles.</p>
+          <button class="btn-act" onclick="act('RGB Rainbow Theme Activated!')">Set Rainbow Theme</button>
+        </div>
+        <div class="card" id="sec-frames">
+          <h4>🖼️ Profile Frames</h4>
+          <p>Unlock exclusive VIP avatar frames.</p>
+          <button class="btn-act" onclick="act('Avatar Frames Unlocked!')">Unlock Frames</button>
+        </div>
+        <div class="card" id="sec-decor">
+          <h4>✨ Special Decorations</h4>
+          <p>Get all limited-edition event decorations.</p>
+          <button class="btn-act" onclick="act('Decorations Unlocked!')">Unlock Decor</button>
+        </div>
+      </div>
+
+      <!-- Gameplay Unlocks -->
+      <div class="section-head" id="sec-vip">💎 VIP Privileges & Events</div>
+      <div class="grid">
+        <div class="card">
+          <h4>💎 VIP Pass Status</h4>
+          <p>Activate persistent VIP status level 10.</p>
+          <button class="btn-act" onclick="act('VIP Level 10 Activated!')">Activate VIP</button>
+        </div>
+        <div class="card" id="sec-cards">
+          <h4>🃏 Match & Mini-game Cards</h4>
+          <p>Unlock all collection card sets.</p>
+          <button class="btn-act" onclick="act('All Cards Unlocked!')">Unlock Cards</button>
+        </div>
+        <div class="card" id="sec-pass">
+          <h4>🎫 Golden Pass</h4>
+          <p>Auto-complete active Golden Pass season.</p>
+          <button class="btn-act" onclick="act('Golden Pass Maxed Out!')">Max Golden Pass</button>
+        </div>
+        <div class="card" id="sec-m3">
+          <h4>🧩 Match-3 Levels</h4>
+          <p>Auto-pass mini-game puzzle levels.</p>
+          <input type="number" value="100" placeholder="Stage number">
+          <button class="btn-act" onclick="act('Match-3 Stage Solved!')">Skip Stage</button>
+        </div>
+      </div>
+
+      <!-- Expansion & World -->
+      <div class="section-head" id="sec-exp">🗺️ Town & World Upgrades</div>
+      <div class="grid">
+        <div class="card">
+          <h4>🗺️ Instant Land Expansion</h4>
+          <p>Clear land barriers without coupons.</p>
+          <button class="btn-act" onclick="act('All Land Expanded!')">Expand Land</button>
+        </div>
+        <div class="card" id="sec-zoo">
+          <h4>🦁 Zoo Level & Animals</h4>
+          <p>Max zoo rank & unlock all animals.</p>
+          <button class="btn-act" onclick="act('Zoo Maxed Out!')">Max Zoo</button>
+        </div>
+        <div class="card" id="sec-coupons">
+          <h4>🎁 Barn & Expansion Coupons</h4>
+          <p>Inject 999x barn & factory coupons.</p>
+          <button class="btn-act" onclick="act('Coupons Added!')">Add 999x Coupons</button>
+        </div>
+        <div class="card" id="sec-market">
+          <h4>🛒 Market Dealer</h4>
+          <p>Hire Dealer for 100 days free.</p>
+          <button class="btn-act" onclick="act('Dealer Hired for 100 Days!')">Hire Dealer</button>
+        </div>
+      </div>
+
+      <!-- Boosters & Competitions -->
+      <div class="section-head" id="sec-boost">🚀 Boosters & Regatta</div>
+      <div class="grid">
+        <div class="card">
+          <h4>🚀 Laboratory Boosters</h4>
+          <p>Activate high-speed harvesting boosters.</p>
+          <button class="btn-act" onclick="act('All Boosters Active!')">Activate Boosters</button>
+        </div>
+        <div class="card" id="sec-regatta">
+          <h4>🚣 Regatta Auto-Tasks</h4>
+          <p>Auto-complete 135 pt regatta tasks.</p>
+          <button class="btn-act" onclick="act('Regatta Tasks Completed!')">Complete Task</button>
+        </div>
+        <div class="card" id="sec-tools">
+          <h4>🛠️ Building & Mining Tools</h4>
+          <p>Add 9,999 pickaxes, axes & saws.</p>
+          <button class="btn-act" onclick="act('Tools Injected!')">Inject Tools</button>
+        </div>
+      </div>
+
+      <!-- Analytics & Developer Tools -->
+      <div class="section-head" id="sec-stats">📊 System & Dev Console</div>
+      <div class="grid">
+        <div class="card">
+          <h4>📊 Account Statistics</h4>
+          <p>View current injection logs & telemetry.</p>
+          <button class="btn-act" onclick="act('Stats Refreshed!')">Refresh Stats</button>
+        </div>
+        <div class="card" id="sec-lang">
+          <h4>🌐 Language Config</h4>
+          <p>Switch tool UI localization language.</p>
+          <select>
+            <option>English (US)</option>
+            <option>Hindi (IN)</option>
+            <option>Spanish (ES)</option>
+            <option>Portuguese (BR)</option>
+          </select>
+          <button class="btn-act" onclick="act('Language Changed!')">Save Language</button>
+        </div>
+        <div class="card" id="sec-console">
+          <h4>💻 Terminal Console</h4>
+          <p>Execute custom raw command scripts.</p>
+          <button class="btn-act" onclick="act('Console Mode Opened!')">Open Terminal</button>
+        </div>
+        <div class="card" id="sec-settings">
+          <h4>⚙️ Tool Settings</h4>
+          <p>Manage passkeys, storage & preferences.</p>
+          <button class="btn-act" onclick="act('Settings Saved!')">Save Settings</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
