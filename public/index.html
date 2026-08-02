@@ -267,3 +267,130 @@
     </div>
   </div>
   
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container">
+    <header>
+      <div class="header-left">
+        <div class="menu-btn" id="drawer-toggle">☰</div>
+        <div class="brand-title">
+          <h2>IGG VIP TOOL</h2>
+          <p>Township VIP Control Center</p>
+        </div>
+      </div>
+      <div class="ist-clock-container">
+        <div class="clock-time" id="clock-time">00:00:00</div>
+        <div class="clock-date" id="clock-date">LIVE TIME</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="section-title">✨ VIP Controls & Currencies</div>
+      
+      <div class="grid-container">
+        <!-- Card 1: Coins -->
+        <div class="vip-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon">🪙</span>
+              <span class="card-title">Township Coins</span>
+            </div>
+            <span class="card-badge">Active</span>
+          </div>
+          <div class="card-body">
+            <div class="numeric-control">
+              <button class="btn-step" onclick="adjustValue('coin-val', -10000)">-</button>
+              <input type="number" id="coin-val" class="num-input" value="999999">
+              <button class="btn-step" onclick="adjustValue('coin-val', 10000)">+</button>
+            </div>
+            <div class="preset-btns">
+              <button class="btn-preset" onclick="setValue('coin-val', 100000)">100K</button>
+              <button class="btn-preset" onclick="setValue('coin-val', 500000)">500K</button>
+              <button class="btn-preset" onclick="setValue('coin-val', 1000000)">1M</button>
+              <button class="btn-preset" onclick="setValue('coin-val', 9999999)">9.9M</button>
+            </div>
+            <button class="btn-action" onclick="applyFeature('Coins')">Apply Coins</button>
+          </div>
+        </div>
+
+        <!-- Card 2: Cash / T-Cash -->
+        <div class="vip-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon">💵</span>
+              <span class="card-title">Township Cash</span>
+            </div>
+            <span class="card-badge">Active</span>
+          </div>
+          <div class="card-body">
+            <div class="numeric-control">
+              <button class="btn-step" onclick="adjustValue('cash-val', -5000)">-</button>
+              <input type="number" id="cash-val" class="num-input" value="50000">
+              <button class="btn-step" onclick="adjustValue('cash-val', 5000)">+</button>
+            </div>
+            <div class="preset-btns">
+              <button class="btn-preset" onclick="setValue('cash-val', 10000)">10K</button>
+              <button class="btn-preset" onclick="setValue('cash-val', 50000)">50K</button>
+              <button class="btn-preset" onclick="setValue('cash-val', 100000)">100K</button>
+              <button class="btn-preset" onclick="setValue('cash-val', 999999)">999K</button>
+            </div>
+            <button class="btn-action" onclick="applyFeature('T-Cash')">Apply Cash</button>
+          </div>
+        </div>
+
+        <!-- Card 3: Instant Speedup -->
+        <div class="vip-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon">⚡</span>
+              <span class="card-title">Instant Speedup</span>
+            </div>
+            <span class="card-badge">Toggle</span>
+          </div>
+          <div class="card-body">
+            <div class="toggle-row">
+              <span class="toggle-label">Enable Speedup</span>
+              <label class="switch">
+                <input type="checkbox" id="toggle-speedup">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <button class="btn-action" onclick="applyFeature('Speedup Mode')">Save Toggle State</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Simple Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock-time').textContent = now.toLocaleTimeString();
+      document.getElementById('clock-date').textContent = now.toLocaleDateString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Login logic
+    document.getElementById('btn-login-submit').addEventListener('click', function() {
+      document.getElementById('login-overlay').classList.add('hidden');
+    });
+
+    // Control functions
+    function adjustValue(id, amount) {
+      const input = document.getElementById(id);
+      let val = parseInt(input.value) || 0;
+      val = Math.max(0, val + amount);
+      input.value = val;
+    }
+
+    function setValue(id, val) {
+      document.getElementById(id).value = val;
+    }
+
+    function applyFeature(name) {
+      alert(name + ' settings saved!');
+    }
+  </script>
+</body>
+</html>
