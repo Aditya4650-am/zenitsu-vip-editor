@@ -345,4 +345,187 @@
       </div>
     </div>
   </div>
-  
+    <!-- CATEGORY 3: GAMEPLAY & PROGRESS -->
+  <div class="vertical-category-card">
+    <div class="category-header">🧩 Gameplay & Progress</div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name purple">🃏 Unlock Cards</span>
+        <input class="feature-input" type="number" value="16" onchange="logAction('Unlock Cards value updated to ' + this.value)">
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Unlock Cards')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name gold">🎫 Golden Pass</span>
+        <input class="feature-input" type="text" value="SEASON MAX" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Golden Pass')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name purple">🧩 Match-3 Level</span>
+        <input class="feature-input" type="number" value="10000" onchange="logAction('Match-3 Level set to ' + this.value)">
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Match-3 Level')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name">🗺️ Expansion</span>
+        <input class="feature-input" type="text" value="MAX LAND" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Expansion')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name magenta">🦁 Zoo</span>
+        <input class="feature-input" type="text" value="MAX RANK" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Zoo')">✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 4: SUPPLIES & BOOSTS -->
+  <div class="vertical-category-card">
+    <div class="category-header">🛒 Supplies & Boosts</div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name gold">🎁 Coupons</span>
+        <input class="feature-input" type="number" value="999" onchange="logAction('Coupons updated to ' + this.value)">
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Coupons')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name purple">🛒 Market Items</span>
+        <input class="feature-input" type="text" value="100D DEALER" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Market Items')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name">🚀 Boosters</span>
+        <input class="feature-input" type="text" value="MAX SPEED" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Boosters')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name">🚣 Regatta</span>
+        <input class="feature-input" type="text" value="AUTO 135PT" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Regatta')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name magenta">🛠️ Tools</span>
+        <input class="feature-input" type="number" value="9999" onchange="logAction('Tools count updated to ' + this.value)">
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Tools')">✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 5: LIVE TERMINAL CONSOLE -->
+  <div class="terminal-card">
+    <div class="terminal-header">
+      <span>💻 SYSTEM TERMINAL & LOGS</span>
+      <span style="color:var(--rgb-green)">● ONLINE</span>
+    </div>
+    <div class="terminal-logs" id="terminal-screen">
+      <div class="log-line success">[SYSTEM] Initialized IGG VIP Tool Kernel v2.4...</div>
+      <div class="log-line">[STATUS] Connected to server tor.onrender.com</div>
+      <div class="log-line warn">[INFO] All 24 custom features loaded successfully.</div>
+    </div>
+    <div class="terminal-input-row">
+      <span>&gt;</span>
+      <input type="text" id="terminal-cmd" placeholder="Type console command (e.g. /help, /apply)..." onkeydown="handleTerminalCommand(event)">
+    </div>
+  </div>
+
+  <script>
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock-display').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Toggle Checkmark Switcher
+    function toggleSwitch(element, featureName) {
+      if (element.classList.contains('off')) {
+        element.classList.remove('off');
+        element.textContent = '✓';
+        logAction('Enabled ' + featureName, 'success');
+      } else {
+        element.classList.add('off');
+        element.textContent = '✕';
+        logAction('Disabled ' + featureName, 'warn');
+      }
+    }
+
+    // Terminal Logging System
+    function logAction(message, type = '') {
+      const screen = document.getElementById('terminal-screen');
+      const time = new Date().toLocaleTimeString();
+      const line = document.createElement('div');
+      line.className = 'log-line ' + type;
+      line.textContent = `[${time}] ${message}`;
+      screen.appendChild(line);
+      screen.scrollTop = screen.scrollHeight;
+    }
+
+    // Terminal Input Handling
+    function handleTerminalCommand(event) {
+      if (event.key === 'Enter') {
+        const input = document.getElementById('terminal-cmd');
+        const cmd = input.value.trim();
+        if (cmd !== '') {
+          logAction('> ' + cmd);
+          if (cmd.toLowerCase() === '/help') {
+            logAction('[HELP] Available commands: /clear, /apply, /status', 'warn');
+          } else if (cmd.toLowerCase() === '/clear') {
+            document.getElementById('terminal-screen').innerHTML = '';
+          } else if (cmd.toLowerCase() === '/apply') {
+            logAction('[SUCCESS] Configurations applied to save data.', 'success');
+          } else {
+            logAction('[ERROR] Unknown command: ' + cmd, 'warn');
+          }
+          input.value = '';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+
