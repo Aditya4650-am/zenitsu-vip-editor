@@ -3,273 +3,346 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>👑 IGG VIP TOOL — Township Control Center</title>
+  <title>👑 IGG VIP TOOL — Ultimate Control Center</title>
   <style>
     :root {
-      --bg-main: #0a0d14;
-      --card-bg: #121722;
-      --card-border: rgba(255, 255, 255, 0.08);
-      --primary-gold: #ffcc00;
-      --cyan-btn: #00f0ff;
-      --purple-btn: #d000ff;
-      --pink-btn: #ff007f;
-      --text-muted: #8592a6;
-      --text-white: #ffffff;
-      --radius-sm: 8px;
+      --bg-space: #060913;
+      --card-bg: rgba(15, 20, 32, 0.85);
+      --card-border: rgba(255, 255, 255, 0.1);
+      
+      --rgb-cyan: #00f0ff;
+      --rgb-magenta: #ff007f;
+      --rgb-purple: #a000ff;
+      --rgb-gold: #ffd700;
+      --rgb-green: #00ff88;
+      
+      --text-muted: #8292ab;
+      --radius-lg: 20px;
       --radius-md: 14px;
+      --radius-sm: 8px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
-    body { background: var(--bg-main); color: var(--text-white); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 15px; font-size: 14px; }
-
-    /* Login Screen */
-    #login-overlay {
-      position: fixed; inset: 0; z-index: 999; background: var(--bg-main);
-      display: flex; align-items: center; justify-content: center; padding: 20px;
-    }
-    #login-overlay.hidden { display: none; }
-    .login-box {
-      width: 100%; max-width: 360px; padding: 25px; background: var(--card-bg);
-      border: 1px solid var(--card-border); border-radius: var(--radius-md); text-align: center;
-    }
-    .login-box input {
-      width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border);
-      border-radius: var(--radius-sm); color: var(--primary-gold); font-size: 1rem; text-align: center; margin: 15px 0; outline: none;
-    }
-    .login-btn {
-      width: 100%; padding: 12px; background: linear-gradient(135deg, var(--cyan-btn), var(--purple-btn));
-      border: none; border-radius: var(--radius-sm); color: #fff; font-weight: bold; cursor: pointer;
+    
+    body {
+      background: var(--bg-space);
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 16px;
+      font-size: 14px;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* Top Bar */
-    .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-    .top-bar h2 { font-size: 1.2rem; color: var(--primary-gold); font-weight: 800; letter-spacing: 0.5px; }
-    .clock-time { font-family: monospace; font-size: 0.95rem; color: var(--cyan-btn); }
-
-    /* Category Section Headers */
-    .cat-title {
-      font-size: 0.85rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;
-      letter-spacing: 1px; margin: 20px 0 10px 0; border-bottom: 1px solid var(--card-border); padding-bottom: 5px;
+    /* Animated Ambient RGB Glow Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%; left: -20%;
+      width: 140%; height: 140%;
+      background: radial-gradient(circle at 20% 20%, rgba(0, 240, 255, 0.08), transparent 40%),
+                  radial-gradient(circle at 80% 80%, rgba(255, 0, 127, 0.08), transparent 40%),
+                  radial-gradient(circle at 50% 50%, rgba(160, 0, 255, 0.06), transparent 50%);
+      z-index: -1;
+      animation: rotateGlow 20s linear infinite alternate;
     }
-    .cat-title:first-of-type { margin-top: 0; }
-
-    /* Features Grid */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-
-    /* Card Box Style */
-    .feature-card {
-      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-md);
-      padding: 12px 14px; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 85px;
-    }
-    .card-title {
-      font-size: 0.72rem; font-weight: 800; color: var(--primary-gold);
-      display: flex; align-items: center; gap: 4px; letter-spacing: 0.5px; text-transform: uppercase;
-    }
-    .card-title.cyan { color: var(--cyan-btn); }
-    .card-title.purple { color: var(--purple-btn); }
-    .card-title.pink { color: var(--pink-btn); }
-
-    .card-val-input {
-      font-size: 1.15rem; font-weight: 800; color: #fff; background: none; border: none;
-      width: 100%; outline: none; margin-top: 6px; font-family: inherit;
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(10deg) scale(1.05); }
     }
 
-    .card-toggle {
-      position: absolute; top: 10px; right: 10px; width: 18px; height: 18px;
-      border-radius: 4px; background: var(--primary-gold); display: flex; align-items: center;
-      justify-content: center; color: #000; font-size: 11px; font-weight: bold; cursor: pointer;
+    /* Top Bar Header */
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .card-toggle.cyan { background: var(--cyan-btn); }
-    .card-toggle.purple { background: var(--purple-btn); }
-    .card-toggle.pink { background: var(--pink-btn); }
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, var(--rgb-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+    .live-clock {
+      font-family: monospace;
+      font-size: 0.95rem;
+      color: var(--rgb-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+    }
+
+    /* Vertical 3D Category Box */
+    .vertical-category-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 22px;
+      position: relative;
+      /* 3D Depth Shadows */
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                  0 0 15px rgba(0, 240, 255, 0.05);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    /* Animated RGB Line Top Accent */
+    .vertical-category-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--rgb-cyan), var(--rgb-magenta), var(--rgb-gold), var(--rgb-cyan));
+      background-size: 300% 100%;
+      animation: rgbMove 4s linear infinite;
+    }
+    @keyframes rgbMove {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 300% 0%; }
+    }
+
+    .category-header {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--rgb-gold);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Horizontal Feature Card Row */
+    .horizontal-feature-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8, 12, 22, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      position: relative;
+      /* 3D Pressed Card Effect */
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .horizontal-feature-row:last-child { margin-bottom: 0; }
+
+    .horizontal-feature-row:active {
+      transform: scale(0.98);
+      border-color: rgba(0, 240, 255, 0.4);
+    }
+
+    .feature-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .feature-name {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rgb-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .feature-name.magenta { color: var(--rgb-magenta); }
+    .feature-name.purple { color: var(--rgb-purple); }
+    .feature-name.gold { color: var(--rgb-gold); }
+
+    .feature-input {
+      background: none;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 900;
+      font-family: inherit;
+      width: 140px;
+    }
+
+    .feature-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Custom 3D RGB Checkmark Box Switcher */
+    .3d-toggle-box {
+      width: 26px; height: 26px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--rgb-cyan), var(--rgb-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+      transition: all 0.2s;
+    }
+    .3d-toggle-box.off {
+      background: #1c2333;
+      color: #526077;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Terminal Console Display */
+    .terminal-card {
+      background: #04060c;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.15);
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--rgb-cyan);
+      font-weight: bold;
+      margin-bottom: 12px;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+    }
+    .terminal-logs {
+      height: 120px;
+      overflow-y: auto;
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .log-line { color: #8e9cb0; }
+    .log-line.success { color: var(--rgb-green); }
+    .log-line.warn { color: var(--rgb-gold); }
+    
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.03);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .terminal-input-row span { color: var(--rgb-magenta); font-weight: bold; }
+    .terminal-input-row input {
+      width: 100%; background: none; border: none; outline: none; color: #fff; font-family: inherit; font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
 
-  <!-- LOGIN OVERLAY -->
-  <div id="login-overlay">
-    <div class="login-box">
-      <h2 style="color:var(--primary-gold);">👑 IGG VIP TOOL</h2>
-      <p style="color:var(--text-muted); font-size:0.8rem; margin-top:4px;">Township VIP Control Center</p>
-      <input type="password" id="passkey" placeholder="Passkey (e.g. 1234)">
-      <button class="login-btn" onclick="login()">UNLOCK DASHBOARD</button>
-      <div id="login-err" style="color:#ff3366; font-size:0.8rem; margin-top:10px;"></div>
+  <!-- HEADER -->
+  <div class="header-bar">
+    <div class="brand-title">👑 IGG VIP TOOL</div>
+    <div class="live-clock" id="clock-display">00:00:00</div>
+  </div>
+
+  <!-- CATEGORY 1: DASHBOARD & CURRENCIES -->
+  <div class="vertical-category-card">
+    <div class="category-header">🏠 Dashboard & Currencies</div>
+    
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name gold">🪙 Coins</span>
+        <input class="feature-input" type="number" value="1809119" onchange="logAction('Coins updated to ' + this.value)">
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Coins')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name">💵 TCash</span>
+        <input class="feature-input" type="number" value="99689267" onchange="logAction('TCash updated to ' + this.value)">
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'TCash')">✓</div>
+      </div>
+    </div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name purple">💎 VIP Features</span>
+        <input class="feature-input" type="text" value="LEVEL 10" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'VIP Features')">✓</div>
+      </div>
     </div>
   </div>
 
-  <!-- TOP HEADER -->
-  <div class="top-bar">
-    <h2>👑 IGG VIP TOOL</h2>
-    <div class="clock-time" id="live-clock">00:00:00</div>
-  </div>
+  <!-- CATEGORY 2: CUSTOMIZATION & REWARDS -->
+  <div class="vertical-category-card">
+    <div class="category-header">👑 Customization & Rewards</div>
 
-  <!-- DASHBOARD & CURRENCIES -->
-  <div class="cat-title">🏠 Dashboard & Currencies</div>
-  <div class="grid">
-    <div class="feature-card">
-      <div class="card-title">🪙 Coins</div>
-      <input class="card-val-input" type="number" value="1809119">
-      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name gold">👑 Skins</span>
+        <input class="feature-input" type="text" value="UNLOCKED" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Skins')">✓</div>
+      </div>
     </div>
-    <div class="feature-card">
-      <div class="card-title cyan">💵 TCash</div>
-      <input class="card-val-input" type="number" value="99689267">
-      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title purple">💎 VIP Features</div>
-      <input class="card-val-input" type="text" value="LEVEL 10" readonly>
-      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
-    </div>
-  </div>
 
-  <!-- CUSTOMIZATION & STYLING -->
-  <div class="cat-title">👑 Customization & Rewards</div>
-  <div class="grid">
-    <div class="feature-card">
-      <div class="card-title">👑 Skins</div>
-      <input class="card-val-input" type="text" value="UNLOCKED" readonly>
-      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name magenta">🏅 Badges</span>
+        <input class="feature-input" type="text" value="VIP BADGES" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Badges')">✓</div>
+      </div>
     </div>
-    <div class="feature-card">
-      <div class="card-title purple">🏅 Badges</div>
-      <input class="card-val-input" type="text" value="VIP BADGES" readonly>
-      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name">🎨 Style</span>
+        <input class="feature-input" type="text" value="RGB AURA" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Style')">✓</div>
+      </div>
     </div>
-    <div class="feature-card">
-      <div class="card-title cyan">🎨 Style</div>
-      <input class="card-val-input" type="text" value="RGB AURA" readonly>
-      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name magenta">🖼️ Frames</span>
+        <input class="feature-input" type="text" value="ALL FRAMES" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Frames')">✓</div>
+      </div>
     </div>
-    <div class="feature-card">
-      <div class="card-title pink">🖼️ Frames</div>
-      <input class="card-val-input" type="text" value="ALL FRAMES" readonly>
-      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title">✨ Decoration</div>
-      <input class="card-val-input" type="text" value="EVENT DECOR" readonly>
-      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+
+    <div class="horizontal-feature-row">
+      <div class="feature-left">
+        <span class="feature-name gold">✨ Decoration</span>
+        <input class="feature-input" type="text" value="EVENT DECOR" readonly>
+      </div>
+      <div class="feature-right">
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Decoration')">✓</div>
+      </div>
     </div>
   </div>
   
-  <!-- GAMEPLAY & PROGRESSION -->
-  <div class="cat-title">🧩 Gameplay & Progress</div>
-  <div class="grid">
-    <div class="feature-card">
-      <div class="card-title purple">🃏 Unlock Cards</div>
-      <input class="card-val-input" type="number" value="16">
-      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title">🎫 Golden Pass</div>
-      <input class="card-val-input" type="text" value="SEASON MAX" readonly>
-      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title purple">🧩 Match-3 Level</div>
-      <input class="card-val-input" type="number" value="10000">
-      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title cyan">🗺️ Expansion</div>
-      <input class="card-val-input" type="text" value="MAX LAND" readonly>
-      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title pink">🦁 Zoo</div>
-      <input class="card-val-input" type="text" value="MAX RANK" readonly>
-      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
-    </div>
-  </div>
-
-  <!-- MARKET & BOOSTERS -->
-  <div class="cat-title">🛒 Supplies & Boosts</div>
-  <div class="grid">
-    <div class="feature-card">
-      <div class="card-title">🎁 Coupons</div>
-      <input class="card-val-input" type="number" value="999">
-      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title purple">🛒 Market Items</div>
-      <input class="card-val-input" type="text" value="100D DEALER" readonly>
-      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title cyan">🚀 Boosters</div>
-      <input class="card-val-input" type="text" value="MAX SPEED" readonly>
-      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title cyan">🚣 Regatta</div>
-      <input class="card-val-input" type="text" value="AUTO 135PT" readonly>
-      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title pink">🛠️ Tools</div>
-      <input class="card-val-input" type="number" value="9999">
-      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
-    </div>
-  </div>
-
-  <!-- SYSTEM & CONFIGURATION -->
-  <div class="cat-title">⚙️ System & Console</div>
-  <div class="grid">
-    <div class="feature-card">
-      <div class="card-title">📊 Stats</div>
-      <input class="card-val-input" type="text" value="ACTIVE" readonly>
-      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title purple">🌐 Language</div>
-      <input class="card-val-input" type="text" value="ENGLISH" readonly>
-      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title cyan">💻 Console</div>
-      <input class="card-val-input" type="text" value="TERMINAL" readonly>
-      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
-    </div>
-    <div class="feature-card">
-      <div class="card-title pink">⚙️ Settings</div>
-      <input class="card-val-input" type="text" value="SAVED" readonly>
-      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
-    </div>
-  </div>
-
-  <script>
-    // Live Clock
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('live-clock').textContent = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Login Verification
-    function login() {
-      const pass = document.getElementById('passkey').value.trim();
-      const err = document.getElementById('login-err');
-      if (pass === "1234" || pass.toLowerCase() === "vip2026" || pass.toLowerCase() === "admin") {
-        document.getElementById('login-overlay').classList.add('hidden');
-      } else {
-        err.textContent = "❌ Invalid key! Try: 1234";
-      }
-    }
-
-    // Toggle Box Checkmark Behavior
-    function toggleCard(btn) {
-      if (btn.textContent === "✓") {
-        btn.textContent = "✕";
-        btn.style.background = "#2a2d3d";
-        btn.style.color = "#8592a6";
-      } else {
-        btn.textContent = "✓";
-        btn.style.background = "";
-        btn.style.color = "#000";
-      }
-    }
-  </script>
-</body>
-</html>
