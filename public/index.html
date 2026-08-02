@@ -290,3 +290,99 @@
     </div>
   </div>
   
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container">
+    <header>
+      <div class="brand-title">
+        <h2>👑 IGG VIP TOOL</h2>
+        <p>Township VIP Control Center</p>
+      </div>
+      <div class="clock-time" id="clock-time">00:00:00</div>
+    </header>
+
+    <main>
+      <h3 style="color: #fff; margin-bottom: 15px;">✨ VIP Dashboard Controls</h3>
+      
+      <div class="grid-container">
+        <!-- Card 1: Coins -->
+        <div class="vip-card">
+          <h4>🪙 Township Coins</h4>
+          <p style="color: var(--text-muted); font-size: 0.8rem; margin: 8px 0;">Inject resources directly</p>
+          <input type="number" id="coin-val" value="999999" style="width:100%; padding:8px; background:rgba(0,0,0,0.4); border:1px solid var(--border-glass); border-radius:6px; color:var(--neon-gold); text-align:center; font-family:var(--font-mono);">
+          <button class="btn-action" onclick="applyFeature('Coins')">Apply Coins</button>
+        </div>
+
+        <!-- Card 2: Cash / T-Cash -->
+        <div class="vip-card">
+          <h4>💵 Township Cash</h4>
+          <p style="color: var(--text-muted); font-size: 0.8rem; margin: 8px 0;">Inject premium currency</p>
+          <input type="number" id="cash-val" value="50000" style="width:100%; padding:8px; background:rgba(0,0,0,0.4); border:1px solid var(--border-glass); border-radius:6px; color:var(--neon-gold); text-align:center; font-family:var(--font-mono);">
+          <button class="btn-action" onclick="applyFeature('T-Cash')">Apply Cash</button>
+        </div>
+
+        <!-- Card 3: Instant Speedup -->
+        <div class="vip-card">
+          <h4>⚡ Instant Speedup</h4>
+          <p style="color: var(--text-muted); font-size: 0.8rem; margin: 8px 0;">Bypass timers & queues</p>
+          <button class="btn-action" onclick="applyFeature('Speedup Mode')">Enable Speedup</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Live Clock Function
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock-time').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Login Verification Logic
+    const VALID_PASSKEYS = ["1234", "VIP2026", "admin", "igg"];
+    const loginOverlay = document.getElementById('login-overlay');
+    const passkeyInput = document.getElementById('passkey-input');
+    const loginBtn = document.getElementById('btn-login-submit');
+    const errorMsg = document.getElementById('login-error-msg');
+
+    function unlockDashboard() {
+      const inputPass = passkeyInput.value.trim();
+
+      if (!inputPass) {
+        errorMsg.textContent = "⚠️ Please enter a passkey!";
+        return;
+      }
+
+      if (VALID_PASSKEYS.includes(inputPass.toLowerCase())) {
+        errorMsg.style.color = "var(--neon-green)";
+        errorMsg.textContent = "✔ Access Granted! Redirecting...";
+        
+        setTimeout(() => {
+          loginOverlay.classList.add('hidden');
+        }, 500);
+      } else {
+        errorMsg.style.color = "var(--neon-red)";
+        errorMsg.textContent = "❌ Invalid Passkey! Try: 1234";
+        passkeyInput.value = "";
+        passkeyInput.focus();
+      }
+    }
+
+    // Trigger on button click
+    loginBtn.addEventListener('click', unlockDashboard);
+
+    // Trigger on "Enter" key press
+    passkeyInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        unlockDashboard();
+      }
+    });
+
+    // Dashboard Action Function
+    function applyFeature(featureName) {
+      alert('⚡ ' + featureName + ' activated successfully!');
+    }
+  </script>
+</body>
+</html>
