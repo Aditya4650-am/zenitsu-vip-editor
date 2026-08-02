@@ -25,13 +25,12 @@ function encodeSaveData(xmlString) {
     return zlib.deflateSync(Buffer.from(xmlString, 'utf-8'));
 }
 
-// Improved Tag Updater (Handles existing tags + appends missing tags before last root tag)
+// Improved Tag Updater
 function updateXmlTag(xml, tag, value) {
     const regex = new RegExp(`(<${tag}>)(.*?)(<\/${tag}>)`, 'gs');
     if (regex.test(xml)) {
         return xml.replace(regex, `$1${value}$3`);
     }
-    // Fallback: Inject before the closing tag of the root element
     const lastClosingIndex = xml.lastIndexOf('</');
     if (lastClosingIndex !== -1) {
         return xml.slice(0, lastClosingIndex) + `  <${tag}>${value}</${tag}>\n` + xml.slice(lastClosingIndex);
@@ -49,7 +48,6 @@ app.post('/api/process', (req, res) => {
         const file = req.files.saveFile;
         let xmlContent = decodeSaveData(file.data);
 
-        // Parse JSON safely
         let payload = {};
         try {
             payload = typeof req.body.payload === 'string' ? JSON.parse(req.body.payload) : (req.body.payload || {});
