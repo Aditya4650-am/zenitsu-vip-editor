@@ -153,3 +153,123 @@
     </div>
   </div>
   
+  <!-- GAMEPLAY & PROGRESSION -->
+  <div class="cat-title">🧩 Gameplay & Progress</div>
+  <div class="grid">
+    <div class="feature-card">
+      <div class="card-title purple">🃏 Unlock Cards</div>
+      <input class="card-val-input" type="number" value="16">
+      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title">🎫 Golden Pass</div>
+      <input class="card-val-input" type="text" value="SEASON MAX" readonly>
+      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title purple">🧩 Match-3 Level</div>
+      <input class="card-val-input" type="number" value="10000">
+      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title cyan">🗺️ Expansion</div>
+      <input class="card-val-input" type="text" value="MAX LAND" readonly>
+      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title pink">🦁 Zoo</div>
+      <input class="card-val-input" type="text" value="MAX RANK" readonly>
+      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
+    </div>
+  </div>
+
+  <!-- MARKET & BOOSTERS -->
+  <div class="cat-title">🛒 Supplies & Boosts</div>
+  <div class="grid">
+    <div class="feature-card">
+      <div class="card-title">🎁 Coupons</div>
+      <input class="card-val-input" type="number" value="999">
+      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title purple">🛒 Market Items</div>
+      <input class="card-val-input" type="text" value="100D DEALER" readonly>
+      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title cyan">🚀 Boosters</div>
+      <input class="card-val-input" type="text" value="MAX SPEED" readonly>
+      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title cyan">🚣 Regatta</div>
+      <input class="card-val-input" type="text" value="AUTO 135PT" readonly>
+      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title pink">🛠️ Tools</div>
+      <input class="card-val-input" type="number" value="9999">
+      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
+    </div>
+  </div>
+
+  <!-- SYSTEM & CONFIGURATION -->
+  <div class="cat-title">⚙️ System & Console</div>
+  <div class="grid">
+    <div class="feature-card">
+      <div class="card-title">📊 Stats</div>
+      <input class="card-val-input" type="text" value="ACTIVE" readonly>
+      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title purple">🌐 Language</div>
+      <input class="card-val-input" type="text" value="ENGLISH" readonly>
+      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title cyan">💻 Console</div>
+      <input class="card-val-input" type="text" value="TERMINAL" readonly>
+      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title pink">⚙️ Settings</div>
+      <input class="card-val-input" type="text" value="SAVED" readonly>
+      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
+    </div>
+  </div>
+
+  <script>
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('live-clock').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Login Verification
+    function login() {
+      const pass = document.getElementById('passkey').value.trim();
+      const err = document.getElementById('login-err');
+      if (pass === "1234" || pass.toLowerCase() === "vip2026" || pass.toLowerCase() === "admin") {
+        document.getElementById('login-overlay').classList.add('hidden');
+      } else {
+        err.textContent = "❌ Invalid key! Try: 1234";
+      }
+    }
+
+    // Toggle Box Checkmark Behavior
+    function toggleCard(btn) {
+      if (btn.textContent === "✓") {
+        btn.textContent = "✕";
+        btn.style.background = "#2a2d3d";
+        btn.style.color = "#8592a6";
+      } else {
+        btn.textContent = "✓";
+        btn.style.background = "";
+        btn.style.color = "#000";
+      }
+    }
+  </script>
+</body>
+</html>
