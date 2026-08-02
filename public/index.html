@@ -3,91 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>👑 IGG VIP TOOL — Ultimate Township VIP Control Center</title>
+  <title>👑 IGG VIP TOOL — Township Control Center</title>
   <style>
     :root {
-      --bg-deep-space: #03050d;
-      --bg-glass: rgba(13, 17, 33, 0.75);
-      --bg-glass-hover: rgba(22, 29, 56, 0.9);
-      --primary: #00f0ff;
-      --secondary: #ff007f;
-      --neon-gold: #ffd700;
-      --neon-green: #00ff88;
-      --neon-red: #ff3366;
-      --text-main: #f0f4f8;
-      --text-muted: #8a99ad;
-      --border-glass: rgba(255, 255, 255, 0.12);
-      --font-mono: "Consolas", monospace;
-      --glow-primary: 0 0 15px rgba(0, 240, 255, 0.4);
+      --bg-main: #0a0d14;
+      --card-bg: #121722;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary-gold: #ffcc00;
+      --cyan-btn: #00f0ff;
+      --purple-btn: #d000ff;
+      --pink-btn: #ff007f;
+      --text-muted: #8592a6;
+      --text-white: #ffffff;
+      --radius-sm: 8px;
+      --radius-md: 14px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
-    body { background: var(--bg-deep-space); color: var(--text-main); font-family: -apple-system, sans-serif; min-height: 100vh; font-size: 14px; }
-    
-    /* App Layout */
-    #app-container { display: flex; min-height: 100vh; flex-direction: column; }
-    
-    header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 20px; background: rgba(3, 5, 13, 0.9);
-      border-bottom: 1px solid var(--border-glass); position: sticky; top: 0; z-index: 100;
-      backdrop-filter: blur(10px);
-    }
-    
-    .menu-btn { font-size: 1.4rem; cursor: pointer; margin-right: 12px; color: var(--primary); }
-    .brand { display: flex; align-items: center; }
-    .brand h2 { font-size: 1.1rem; color: var(--primary); }
-
-    /* Drawer Menu */
-    .drawer {
-      position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
-      background: rgba(10, 14, 26, 0.98); border-right: 1px solid var(--border-glass);
-      z-index: 200; transition: 0.3s ease; overflow-y: auto; padding: 20px 10px;
-    }
-    .drawer.open { left: 0; }
-    .drawer-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 199;
-      display: none; backdrop-filter: blur(4px);
-    }
-    .drawer-overlay.open { display: block; }
-    
-    .nav-item {
-      display: flex; align-items: center; gap: 12px; padding: 12px 15px;
-      margin-bottom: 4px; border-radius: 8px; color: var(--text-muted);
-      cursor: pointer; font-weight: 600; transition: 0.2s;
-    }
-    .nav-item:hover, .nav-item.active { background: rgba(0, 240, 255, 0.15); color: #fff; }
-
-    /* Main Grid & Cards */
-    main { padding: 20px; max-width: 1300px; margin: 0 auto; width: 100%; }
-    .section-head { font-size: 1.2rem; margin: 25px 0 12px 0; color: #fff; border-bottom: 1px solid var(--border-glass); padding-bottom: 6px; }
-    .section-head:first-child { margin-top: 0; }
-    
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-    .card { background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 14px; padding: 16px; }
-    .card h4 { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; margin-bottom: 8px; color: #fff; }
-    .card p { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
-    
-    input[type="number"], input[type="text"], select {
-      width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-glass);
-      border-radius: 8px; color: var(--neon-gold); font-family: var(--font-mono); margin-bottom: 10px;
-    }
-    .btn-act {
-      width: 100%; padding: 10px; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--primary);
-      color: #fff; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s;
-    }
-    .btn-act:hover { background: var(--primary); color: #000; box-shadow: var(--glow-primary); }
+    body { background: var(--bg-main); color: var(--text-white); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 15px; font-size: 14px; }
 
     /* Login Screen */
     #login-overlay {
-      position: fixed; inset: 0; z-index: 9999; background: #03050d;
+      position: fixed; inset: 0; z-index: 999; background: var(--bg-main);
       display: flex; align-items: center; justify-content: center; padding: 20px;
     }
     #login-overlay.hidden { display: none; }
     .login-box {
-      width: 100%; max-width: 380px; padding: 30px; background: rgba(13, 17, 33, 0.95);
-      border: 1px solid var(--border-glass); border-radius: 18px; text-align: center;
+      width: 100%; max-width: 360px; padding: 25px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--radius-md); text-align: center;
     }
+    .login-box input {
+      width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm); color: var(--primary-gold); font-size: 1rem; text-align: center; margin: 15px 0; outline: none;
+    }
+    .login-btn {
+      width: 100%; padding: 12px; background: linear-gradient(135deg, var(--cyan-btn), var(--purple-btn));
+      border: none; border-radius: var(--radius-sm); color: #fff; font-weight: bold; cursor: pointer;
+    }
+
+    /* Top Bar */
+    .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .top-bar h2 { font-size: 1.2rem; color: var(--primary-gold); font-weight: 800; letter-spacing: 0.5px; }
+    .clock-time { font-family: monospace; font-size: 0.95rem; color: var(--cyan-btn); }
+
+    /* Category Section Headers */
+    .cat-title {
+      font-size: 0.85rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 1px; margin: 20px 0 10px 0; border-bottom: 1px solid var(--card-border); padding-bottom: 5px;
+    }
+    .cat-title:first-of-type { margin-top: 0; }
+
+    /* Features Grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+
+    /* Card Box Style */
+    .feature-card {
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-md);
+      padding: 12px 14px; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 85px;
+    }
+    .card-title {
+      font-size: 0.72rem; font-weight: 800; color: var(--primary-gold);
+      display: flex; align-items: center; gap: 4px; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .card-title.cyan { color: var(--cyan-btn); }
+    .card-title.purple { color: var(--purple-btn); }
+    .card-title.pink { color: var(--pink-btn); }
+
+    .card-val-input {
+      font-size: 1.15rem; font-weight: 800; color: #fff; background: none; border: none;
+      width: 100%; outline: none; margin-top: 6px; font-family: inherit;
+    }
+
+    .card-toggle {
+      position: absolute; top: 10px; right: 10px; width: 18px; height: 18px;
+      border-radius: 4px; background: var(--primary-gold); display: flex; align-items: center;
+      justify-content: center; color: #000; font-size: 11px; font-weight: bold; cursor: pointer;
+    }
+    .card-toggle.cyan { background: var(--cyan-btn); }
+    .card-toggle.purple { background: var(--purple-btn); }
+    .card-toggle.pink { background: var(--pink-btn); }
   </style>
 </head>
 <body>
@@ -95,273 +89,67 @@
   <!-- LOGIN OVERLAY -->
   <div id="login-overlay">
     <div class="login-box">
-      <h2 style="color:var(--primary); margin-bottom:6px;">👑 IGG VIP TOOL</h2>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Township VIP Control Center</p>
-      <input type="password" id="passkey" placeholder="Enter VIP Passkey (e.g. 1234)" style="text-align:center;">
-      <button class="btn-act" onclick="checkAuth()" style="margin-top:10px;">UNLOCK DASHBOARD</button>
-      <div id="login-err" style="color:var(--neon-red); font-size:0.8rem; margin-top:10px;"></div>
+      <h2 style="color:var(--primary-gold);">👑 IGG VIP TOOL</h2>
+      <p style="color:var(--text-muted); font-size:0.8rem; margin-top:4px;">Township VIP Control Center</p>
+      <input type="password" id="passkey" placeholder="Passkey (e.g. 1234)">
+      <button class="login-btn" onclick="login()">UNLOCK DASHBOARD</button>
+      <div id="login-err" style="color:#ff3366; font-size:0.8rem; margin-top:10px;"></div>
     </div>
   </div>
 
-  <!-- SIDE DRAWER OVERLAY -->
-  <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
+  <!-- TOP HEADER -->
+  <div class="top-bar">
+    <h2>👑 IGG VIP TOOL</h2>
+    <div class="clock-time" id="live-clock">00:00:00</div>
+  </div>
 
-  <!-- SIDE DRAWER MENU WITH ALL FEATURES -->
-  <div class="drawer" id="drawer">
-    <h3 style="color:var(--primary); padding:10px 15px; border-bottom:1px solid var(--border-glass);">👑 VIP Navigation</h3>
-    <div style="margin-top:10px;">
-      <div class="nav-item active" onclick="scrollToSec('sec-main')">🏠 Dashboard</div>
-      <div class="nav-item" onclick="scrollToSec('sec-skins')">👑 Skins</div>
-      <div class="nav-item" onclick="scrollToSec('sec-badges')">🏅 Badges</div>
-      <div class="nav-item" onclick="scrollToSec('sec-style')">🎨 Style</div>
-      <div class="nav-item" onclick="scrollToSec('sec-frames')">🖼️ Frames</div>
-      <div class="nav-item" onclick="scrollToSec('sec-decor')">✨ Decoration</div>
-      <div class="nav-item" onclick="scrollToSec('sec-vip')">💎 VIP Features</div>
-      <div class="nav-item" onclick="scrollToSec('sec-cards')">🃏 Unlock Cards</div>
-      <div class="nav-item" onclick="scrollToSec('sec-pass')">🎫 Golden Pass</div>
-      <div class="nav-item" onclick="scrollToSec('sec-tcash')">💵 TCash</div>
-      <div class="nav-item" onclick="scrollToSec('sec-coins')">🪙 Coins</div>
-      <div class="nav-item" onclick="scrollToSec('sec-m3')">🧩 Match-3 Level</div>
-      <div class="nav-item" onclick="scrollToSec('sec-exp')">🗺️ Expansion</div>
-      <div class="nav-item" onclick="scrollToSec('sec-zoo')">🦁 Zoo</div>
-      <div class="nav-item" onclick="scrollToSec('sec-coupons')">🎁 Coupons</div>
-      <div class="nav-item" onclick="scrollToSec('sec-market')">🛒 Market Items</div>
-      <div class="nav-item" onclick="scrollToSec('sec-boost')">🚀 Boosters</div>
-      <div class="nav-item" onclick="scrollToSec('sec-regatta')">🚣 Regatta</div>
-      <div class="nav-item" onclick="scrollToSec('sec-tools')">🛠️ Tools</div>
-      <div class="nav-item" onclick="scrollToSec('sec-stats')">📊 Stats</div>
-      <div class="nav-item" onclick="scrollToSec('sec-lang')">🌐 Language</div>
-      <div class="nav-item" onclick="scrollToSec('sec-console')">💻 Console</div>
-      <div class="nav-item" onclick="scrollToSec('sec-settings')">⚙️ Settings</div>
+  <!-- DASHBOARD & CURRENCIES -->
+  <div class="cat-title">🏠 Dashboard & Currencies</div>
+  <div class="grid">
+    <div class="feature-card">
+      <div class="card-title">🪙 Coins</div>
+      <input class="card-val-input" type="number" value="1809119">
+      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title cyan">💵 TCash</div>
+      <input class="card-val-input" type="number" value="99689267">
+      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title purple">💎 VIP Features</div>
+      <input class="card-val-input" type="text" value="LEVEL 10" readonly>
+      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
+    </div>
+  </div>
+
+  <!-- CUSTOMIZATION & STYLING -->
+  <div class="cat-title">👑 Customization & Rewards</div>
+  <div class="grid">
+    <div class="feature-card">
+      <div class="card-title">👑 Skins</div>
+      <input class="card-val-input" type="text" value="UNLOCKED" readonly>
+      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title purple">🏅 Badges</div>
+      <input class="card-val-input" type="text" value="VIP BADGES" readonly>
+      <div class="card-toggle purple" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title cyan">🎨 Style</div>
+      <input class="card-val-input" type="text" value="RGB AURA" readonly>
+      <div class="card-toggle cyan" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title pink">🖼️ Frames</div>
+      <input class="card-val-input" type="text" value="ALL FRAMES" readonly>
+      <div class="card-toggle pink" onclick="toggleCard(this)">✓</div>
+    </div>
+    <div class="feature-card">
+      <div class="card-title">✨ Decoration</div>
+      <input class="card-val-input" type="text" value="EVENT DECOR" readonly>
+      <div class="card-toggle" onclick="toggleCard(this)">✓</div>
     </div>
   </div>
   
-  <!-- MAIN APP CONTENT -->
-  <div id="app-container">
-    <header>
-      <div class="brand">
-        <div class="menu-btn" onclick="toggleMenu()">☰</div>
-        <h2>👑 IGG VIP TOOL</h2>
-      </div>
-      <div id="clock" style="font-family:var(--font-mono); color:var(--neon-gold);">16:54:23</div>
-    </header>
-
-    <main>
-      <!-- Dashboard / Currencies -->
-      <div class="section-head" id="sec-main">🏠 Dashboard & Core Currencies</div>
-      <div class="grid">
-        <div class="card" id="sec-coins">
-          <h4>🪙 Township Coins</h4>
-          <p>Inject infinite coins to township balance.</p>
-          <input type="number" id="coin-in" value="999999">
-          <button class="btn-act" onclick="act('Coins Applied!')">Apply Coins</button>
-        </div>
-        <div class="card" id="sec-tcash">
-          <h4>💵 Township Cash</h4>
-          <p>Inject premium T-Cash directly.</p>
-          <input type="number" id="cash-in" value="50000">
-          <button class="btn-act" onclick="act('T-Cash Applied!')">Apply Cash</button>
-        </div>
-        <div class="card">
-          <h4>⚡ Instant Speedup</h4>
-          <p>Bypass all waiting timers instantly.</p>
-          <button class="btn-act" onclick="act('Speedup Enabled!')">Enable Speedup</button>
-        </div>
-      </div>
-
-      <!-- Customization -->
-      <div class="section-head" id="sec-skins">👑 Skins & Customization</div>
-      <div class="grid">
-        <div class="card">
-          <h4>👑 Helipad & Train Skins</h4>
-          <p>Unlock all event & seasonal vehicle skins.</p>
-          <button class="btn-act" onclick="act('All Skins Unlocked!')">Unlock Skins</button>
-        </div>
-        <div class="card" id="sec-badges">
-          <h4>🏅 Town Badges</h4>
-          <p>Unlock elite VIP badges on profile.</p>
-          <button class="btn-act" onclick="act('All Badges Unlocked!')">Unlock Badges</button>
-        </div>
-        <div class="card" id="sec-style">
-          <h4>🎨 UI Themes & Styles</h4>
-          <p>Switch dashboard aura & RGB styles.</p>
-          <button class="btn-act" onclick="act('RGB Rainbow Theme Activated!')">Set Rainbow Theme</button>
-        </div>
-        <div class="card" id="sec-frames">
-          <h4>🖼️ Profile Frames</h4>
-          <p>Unlock exclusive VIP avatar frames.</p>
-          <button class="btn-act" onclick="act('Avatar Frames Unlocked!')">Unlock Frames</button>
-        </div>
-        <div class="card" id="sec-decor">
-          <h4>✨ Special Decorations</h4>
-          <p>Get all limited-edition event decorations.</p>
-          <button class="btn-act" onclick="act('Decorations Unlocked!')">Unlock Decor</button>
-        </div>
-      </div>
-
-      <!-- Gameplay Unlocks -->
-      <div class="section-head" id="sec-vip">💎 VIP Privileges & Events</div>
-      <div class="grid">
-        <div class="card">
-          <h4>💎 VIP Pass Status</h4>
-          <p>Activate persistent VIP status level 10.</p>
-          <button class="btn-act" onclick="act('VIP Level 10 Activated!')">Activate VIP</button>
-        </div>
-        <div class="card" id="sec-cards">
-          <h4>🃏 Match & Mini-game Cards</h4>
-          <p>Unlock all collection card sets.</p>
-          <button class="btn-act" onclick="act('All Cards Unlocked!')">Unlock Cards</button>
-        </div>
-        <div class="card" id="sec-pass">
-          <h4>🎫 Golden Pass</h4>
-          <p>Auto-complete active Golden Pass season.</p>
-          <button class="btn-act" onclick="act('Golden Pass Maxed Out!')">Max Golden Pass</button>
-        </div>
-        <div class="card" id="sec-m3">
-          <h4>🧩 Match-3 Levels</h4>
-          <p>Auto-pass mini-game puzzle levels.</p>
-          <input type="number" value="100" placeholder="Stage number">
-          <button class="btn-act" onclick="act('Match-3 Stage Solved!')">Skip Stage</button>
-        </div>
-      </div>
-
-      <!-- Expansion & World -->
-      <div class="section-head" id="sec-exp">🗺️ Town & World Upgrades</div>
-      <div class="grid">
-        <div class="card">
-          <h4>🗺️ Instant Land Expansion</h4>
-          <p>Clear land barriers without coupons.</p>
-          <button class="btn-act" onclick="act('All Land Expanded!')">Expand Land</button>
-        </div>
-        <div class="card" id="sec-zoo">
-          <h4>🦁 Zoo Level & Animals</h4>
-          <p>Max zoo rank & unlock all animals.</p>
-          <button class="btn-act" onclick="act('Zoo Maxed Out!')">Max Zoo</button>
-        </div>
-        <div class="card" id="sec-coupons">
-          <h4>🎁 Barn & Expansion Coupons</h4>
-          <p>Inject 999x barn & factory coupons.</p>
-          <button class="btn-act" onclick="act('Coupons Added!')">Add 999x Coupons</button>
-        </div>
-        <div class="card" id="sec-market">
-          <h4>🛒 Market Dealer</h4>
-          <p>Hire Dealer for 100 days free.</p>
-          <button class="btn-act" onclick="act('Dealer Hired for 100 Days!')">Hire Dealer</button>
-        </div>
-      </div>
-
-      <!-- Boosters & Competitions -->
-      <div class="section-head" id="sec-boost">🚀 Boosters & Regatta</div>
-      <div class="grid">
-        <div class="card">
-          <h4>🚀 Laboratory Boosters</h4>
-          <p>Activate high-speed harvesting boosters.</p>
-          <button class="btn-act" onclick="act('All Boosters Active!')">Activate Boosters</button>
-        </div>
-        <div class="card" id="sec-regatta">
-          <h4>🚣 Regatta Auto-Tasks</h4>
-          <p>Auto-complete 135 pt regatta tasks.</p>
-          <button class="btn-act" onclick="act('Regatta Tasks Completed!')">Complete Task</button>
-        </div>
-        <div class="card" id="sec-tools">
-          <h4>🛠️ Building & Mining Tools</h4>
-          <p>Add 9,999 pickaxes, axes & saws.</p>
-          <button class="btn-act" onclick="act('Tools Injected!')">Inject Tools</button>
-        </div>
-      </div>
-
-      <!-- Analytics & Developer Tools -->
-      <div class="section-head" id="sec-stats">📊 System & Dev Console</div>
-      <div class="grid">
-        <div class="card">
-          <h4>📊 Account Statistics</h4>
-          <p>View current injection logs & telemetry.</p>
-          <button class="btn-act" onclick="act('Stats Refreshed!')">Refresh Stats</button>
-        </div>
-        <div class="card" id="sec-lang">
-          <h4>🌐 Language Config</h4>
-          <p>Switch tool UI localization language.</p>
-          <select>
-            <option>English (US)</option>
-            <option>Hindi (IN)</option>
-            <option>Spanish (ES)</option>
-            <option>Portuguese (BR)</option>
-          </select>
-          <button class="btn-act" onclick="act('Language Changed!')">Save Language</button>
-        </div>
-        <div class="card" id="sec-console">
-          <h4>💻 Terminal Console</h4>
-          <p>Execute custom raw command scripts.</p>
-          <button class="btn-act" onclick="act('Console Mode Opened!')">Open Terminal</button>
-        </div>
-        <div class="card" id="sec-settings">
-          <h4>⚙️ Tool Settings</h4>
-          <p>Manage passkeys, storage & preferences.</p>
-          <button class="btn-act" onclick="act('Settings Saved!')">Save Settings</button>
-        </div>
-      </div>
-    </main>
-  </div>
-  
-  <script>
-    // Live Clock
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Drawer Menu Toggles
-    function toggleMenu() {
-      document.getElementById('drawer').classList.toggle('open');
-      document.getElementById('overlay').classList.toggle('open');
-    }
-
-    // Scroll to Specific Section from Drawer Menu
-    function scrollToSec(id) {
-      toggleMenu();
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-
-    // Login Verification
-    const VALID_KEYS = ["1234", "vip2026", "admin", "igg"];
-    
-    function checkAuth() {
-      const pass = document.getElementById('passkey').value.trim().toLowerCase();
-      const err = document.getElementById('login-err');
-
-      if (!pass) {
-        err.style.color = "var(--neon-red)";
-        err.textContent = "⚠️ Please enter your VIP Passkey!";
-        return;
-      }
-
-      if (VALID_KEYS.includes(pass)) {
-        err.style.color = "var(--neon-green)";
-        err.textContent = "✔ Access Granted! Loading Dashboard...";
-        
-        setTimeout(() => {
-          document.getElementById('login-overlay').classList.add('hidden');
-        }, 400);
-      } else {
-        err.style.color = "var(--neon-red)";
-        err.textContent = "❌ Incorrect Passkey! Try: 1234";
-      }
-    }
-
-    // Allow Enter Key to Submit Passkey
-    document.getElementById('passkey').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkAuth();
-    });
-
-    // Action Toast Handler
-    function act(msg) {
-      alert('⚡ ' + msg);
-    }
-  </script>
-</body>
-</html>
