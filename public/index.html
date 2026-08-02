@@ -457,4 +457,138 @@
             if (clockElement) clockElement.innerText = `🇮🇳 ${dateStr} | ${timeStr} IST`;
         }
 
-         
+         setInterval(updateISTClock, 1000);
+        updateISTClock();
+
+        function writeLog(msg, colorClass = 'text-gray-300') {
+            const consoleBox = document.getElementById('console-log');
+            const time = getISTTime();
+            consoleBox.innerHTML += `<div><span class="text-gray-500">${time}</span> <span class="${colorClass}">${msg}</span></div>`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        writeLog('ZENITSU VIP Engine running...');
+        writeLog('Connected: . Save file initialized.', 'text-emerald-400');
+        writeLog('Ready to edit!', 'text-emerald-400');
+
+        function toggleMenu() {
+            document.getElementById('side-drawer').classList.toggle('-translate-x-full');
+            document.getElementById('drawer-overlay').classList.toggle('hidden');
+        }
+
+        function openModal(id) {
+            toggleMenu();
+            document.getElementById('modal-container').classList.remove('hidden');
+            document.querySelectorAll('.modal-box').forEach(m => m.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModals() {
+            document.getElementById('modal-container').classList.add('hidden');
+        }
+
+        function actionLogout() {
+            toggleMenu();
+            writeLog('User session logged out.', 'text-pink-400');
+            alert('Logged out successfully.');
+        }
+
+        function actionExit() {
+            toggleMenu();
+            writeLog('Shutting down engine hooks...', 'text-red-400');
+            alert('ZENITSU VIP Session Closed.');
+        }
+
+        function clearConsole() { document.getElementById('console-log').innerHTML = ''; }
+        function copyConsole() {
+            navigator.clipboard.writeText(document.getElementById('console-log').innerText);
+            writeLog('Console output copied!', 'text-cyan-400');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['stats', 'unlocks', 'tools', 'regatta', 'vip'].forEach(t => {
+                document.getElementById(`panel-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('active-tab');
+            });
+            document.getElementById(`panel-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).classList.add('active-tab');
+        }
+
+        function triggerConnect() {
+            writeLog('Closing game process...');
+            setTimeout(() => writeLog('Connecting and parsing target XML...'), 300);
+            setTimeout(() => writeLog('Connected: Save file loaded successfully.', 'text-emerald-400'), 600);
+        }
+
+        async function submitSaveProcess(isRegattaInject = false) {
+            const fileInput = document.getElementById('saveFileInput');
+            if (!fileInput.files[0]) {
+                writeLog('Error: Please select your player.xml save file first!', 'text-red-400');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('saveFile', fileInput.files[0]);
+            formData.append('activeTab', currentTab);
+            formData.append('injectRegatta', isRegattaInject);
+
+            const payload = {
+                stats: {
+                    tcash_active: document.getElementById('chk-tcash').checked,
+                    tcash: document.getElementById('tcash').value,
+                    coins_active: document.getElementById('chk-coins').checked,
+                    coins: document.getElementById('coins').value,
+                    level_active: document.getElementById('chk-level').checked,
+                    level: document.getElementById('level').value,
+                    m3lvl_active: document.getElementById('chk-m3lvl').checked,
+                    m3lvl: document.getElementById('m3lvl').value,
+                    firstwin_active: document.getElementById('chk-firstwin').checked,
+                    firstwin: document.getElementById('firstwin').value,
+                    lives_active: document.getElementById('chk-lives').checked,
+                    lives: document.getElementById('lives').value,
+                    help_active: document.getElementById('chk-help').checked,
+                    help: document.getElementById('help').value,
+                    cards_active: document.getElementById('chk-cards').checked,
+                    cards: document.getElementById('cards').value
+                },
+                unlocks: {
+                    allBuildings: document.getElementById('chk-unlock-buildings').checked,
+                    allExpansions: document.getElementById('chk-unlock-expansions').checked,
+                    allSkins: document.getElementById('chk-unlock-skins').checked
+                },
+                tools: {
+                    antiBan: document.getElementById('chk-tool-antiban').checked,
+                    instantProduce: document.getElementById('chk-tool-instant').checked
+                },
+                vip: {
+                    goldenTicket: document.getElementById('chk-vip-goldenticket').checked
+                }
+            };
+
+            formData.append('payload', JSON.stringify(payload));
+            writeLog('Modifying save payload and re-compressing zlib stream...');
+
+            try {
+                const response = await fetch('/api/process', { method: 'POST', body: formData });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'player.xml';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    writeLog('Save modifications successfully compiled & downloaded!', 'text-emerald-400');
+                } else {
+                    const err = await response.json();
+                    writeLog(`Execution Error: ${err.message}`, 'text-red-400');
+                }
+            } catch (err) {
+                writeLog(`Network Failure: ${err.message}`, 'text-red-400');
+            }
+        }
+    </script>
+</body>
+</html>
