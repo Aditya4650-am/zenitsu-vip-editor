@@ -319,3 +319,289 @@
     </div>
   </div>
   
+  <!-- MAIN CONTAINER (FEATURE ROWS + INTEGRATED TERMINAL CONSOLE) -->
+  <div class="features-container">
+    
+    <!-- CATEGORY 1: DASHBOARD -->
+    <div class="category-section active" id="cat-dash">
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name gold">🪙 Coins</span>
+          <input class="feature-input" type="number" value="1809119" onchange="logConsole('Coins updated to ' + this.value, 'success')">
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Coins')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name">💵 TCash</span>
+          <input class="feature-input" type="number" value="99689267" onchange="logConsole('TCash updated to ' + this.value, 'success')">
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'TCash')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name purple">💎 VIP Features</span>
+          <input class="feature-input" type="text" value="LEVEL 10" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'VIP Features')">✓</div>
+      </div>
+    </div>
+
+    <!-- CATEGORY 2: CUSTOMIZATION -->
+    <div class="category-section" id="cat-custom">
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name gold">👑 Skins</span>
+          <input class="feature-input" type="text" value="UNLOCKED" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Skins')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name magenta">🏅 Badges</span>
+          <input class="feature-input" type="text" value="VIP BADGES" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Badges')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name">🎨 Style</span>
+          <input class="feature-input" type="text" value="RGB AURA" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Style')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name magenta">🖼️ Frames</span>
+          <input class="feature-input" type="text" value="ALL FRAMES" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Frames')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name gold">✨ Decoration</span>
+          <input class="feature-input" type="text" value="EVENT DECOR" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Decoration')">✓</div>
+      </div>
+    </div>
+
+    <!-- CATEGORY 3: GAMEPLAY -->
+    <div class="category-section" id="cat-gameplay">
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name purple">🃏 Unlock Cards</span>
+          <input class="feature-input" type="number" value="16" onchange="logConsole('Unlock Cards value: ' + this.value, 'success')">
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Unlock Cards')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name gold">🎫 Golden Pass</span>
+          <input class="feature-input" type="text" value="SEASON MAX" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Golden Pass')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name purple">🧩 Match-3 Level</span>
+          <input class="feature-input" type="number" value="10000" onchange="logConsole('Match-3 set to ' + this.value, 'success')">
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Match-3 Level')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name">🗺️ Expansion</span>
+          <input class="feature-input" type="text" value="MAX LAND" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Expansion')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name magenta">🦁 Zoo</span>
+          <input class="feature-input" type="text" value="MAX RANK" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Zoo')">✓</div>
+      </div>
+    </div>
+
+    <!-- CATEGORY 4: SUPPLIES -->
+    <div class="category-section" id="cat-supplies">
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name gold">🎁 Coupons</span>
+          <input class="feature-input" type="number" value="999" onchange="logConsole('Coupons count: ' + this.value, 'success')">
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Coupons')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name purple">🛒 Market Items</span>
+          <input class="feature-input" type="text" value="100D DEALER" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Market Items')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name">🚀 Boosters</span>
+          <input class="feature-input" type="text" value="MAX SPEED" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Boosters')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name">🚣 Regatta</span>
+          <input class="feature-input" type="text" value="AUTO 135PT" readonly>
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Regatta')">✓</div>
+      </div>
+
+      <div class="3d-feature-card">
+        <div class="feature-left">
+          <span class="feature-name magenta">🛠️ Tools</span>
+          <input class="feature-input" type="number" value="9999" onchange="logConsole('Tools count: ' + this.value, 'success')">
+        </div>
+        <div class="3d-toggle-box" onclick="toggleSwitch(this, 'Tools')">✓</div>
+      </div>
+    </div>
+
+    <!-- INTEGRATED CONSOLE TERMINAL AT CONTAINER BOTTOM -->
+    <div class="integrated-console">
+      <div class="console-header">
+        <span>💻 SYSTEM TERMINAL LOGS</span>
+        <span style="color:var(--rgb-green)">● ONLINE</span>
+      </div>
+      <div class="console-logs" id="console-screen">
+        <div class="log-line success">[SYSTEM] Authentication bypass successful.</div>
+        <div class="log-line">[STATUS] Session initialized for user: IGG</div>
+        <div class="log-line warn">[READY] Integrated console view loaded without scrolling.</div>
+      </div>
+      <div class="console-input-row">
+        <span>&gt;</span>
+        <input type="text" id="console-cmd" placeholder="Type command (/help, /apply, /clear)..." onkeydown="handleConsoleInput(event)">
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // 3D Neon Live Clock Script
+    function updateClock3D() {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      const secs = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock-3d').textContent = `${hrs}:${mins}:${secs}`;
+    }
+    setInterval(updateClock3D, 1000);
+    updateClock3D();
+
+    // Mandatory Authentication Check
+    function verifyLogin() {
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value.trim();
+      const err = document.getElementById('login-err');
+
+      if (user === "IGG" && pass === "1234") {
+        document.getElementById('login-modal').classList.add('hidden');
+        logConsole('[AUTH] User "IGG" granted access.', 'success');
+      } else {
+        err.textContent = "❌ Invalid Credentials! Check Username & Password.";
+      }
+    }
+
+    // Toggle Sidebar Menu Drawer
+    function toggleDrawer() {
+      document.getElementById('sidebar-drawer').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('active');
+    }
+
+    // Category Switching System
+    function selectCategory(catId, btn) {
+      document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.category-section').forEach(s => s.classList.remove('active'));
+
+      btn.classList.add('active');
+      document.getElementById(catId).classList.add('active');
+      
+      const catName = btn.querySelector('.title').textContent;
+      logConsole('Switched category view to: ' + catName, 'success');
+    }
+
+    // Interactive Checkmark Toggle Switch
+    function toggleSwitch(element, featureName) {
+      if (element.classList.contains('off')) {
+        element.classList.remove('off');
+        element.textContent = '✓';
+        logConsole('Enabled ' + featureName, 'success');
+      } else {
+        element.classList.add('off');
+        element.textContent = '✕';
+        logConsole('Disabled ' + featureName, 'warn');
+      }
+    }
+
+    // Live Console Output Handler
+    function logConsole(message, type = '') {
+      const screen = document.getElementById('console-screen');
+      const time = new Date().toLocaleTimeString();
+      const line = document.createElement('div');
+      line.className = 'log-line ' + type;
+      line.textContent = `[${time}] ${message}`;
+      screen.appendChild(line);
+      screen.scrollTop = screen.scrollHeight;
+    }
+
+    // Live Console Input Commands
+    function handleConsoleInput(event) {
+      if (event.key === 'Enter') {
+        const input = document.getElementById('console-cmd');
+        const cmd = input.value.trim();
+        if (cmd !== '') {
+          logConsole('> ' + cmd);
+          if (cmd.toLowerCase() === '/help') {
+            logConsole('[HELP] Commands: /apply, /clear, /status', 'warn');
+          } else if (cmd.toLowerCase() === '/clear') {
+            document.getElementById('console-screen').innerHTML = '';
+          } else if (cmd.toLowerCase() === '/apply') {
+            logConsole('[SUCCESS] All VIP values pushed to memory cache!', 'success');
+          } else if (cmd.toLowerCase() === '/status') {
+            logConsole('[STATUS] Engine online. All 24 options valid.', 'success');
+          } else {
+            logConsole('[ERROR] Unknown command: ' + cmd, 'warn');
+          }
+          input.value = '';
+        }
+      }
+    }
+
+    // Sidebar Modal Notifications
+    function openSetting(option) {
+      toggleDrawer();
+      logConsole('[MENU] Opened ' + option, 'warn');
+      alert('⚙️ ' + option + ' panel active.');
+    }
+
+    function logout() {
+      toggleDrawer();
+      document.getElementById('login-modal').classList.remove('hidden');
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+      logConsole('[AUTH] User logged out.', 'warn');
+    }
+  </script>
+</body>
+</html>
