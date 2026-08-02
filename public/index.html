@@ -7,9 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --bg-dark: #08090d;
+            --bg-dark: #0b0c10;
             --card-base: #141622;
-            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border: #232738;
             --neon-blue: #00e5ff;
             --neon-purple: #ba55d3;
             --neon-gold: #fbbf24;
@@ -21,66 +21,26 @@
             color: #ffffff; 
             font-family: ui-sans-serif, system-ui, sans-serif;
             perspective: 1000px;
-            overflow-x: hidden;
-        }
-
-        /* 3D Animated Ambient Background Orbs */
-        .ambient-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.35;
-            animation: floatOrb 12s infinite ease-in-out alternate;
-        }
-        .orb-1 {
-            width: 280px;
-            height: 280px;
-            background: radial-gradient(circle, var(--neon-pink), transparent);
-            top: -50px;
-            left: -50px;
-        }
-        .orb-2 {
-            width: 320px;
-            height: 320px;
-            background: radial-gradient(circle, var(--neon-blue), transparent);
-            bottom: -80px;
-            right: -50px;
-            animation-delay: -6s;
-        }
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            100% { transform: translate(40px, 50px) scale(1.15) rotate(180deg); }
         }
 
         /* Realistic 3D Box & Container Effects */
         .card-3d {
-            background: linear-gradient(160deg, rgba(28, 31, 48, 0.85) 0%, rgba(17, 18, 28, 0.9) 100%);
-            border: 1px solid var(--card-border);
+            background: linear-gradient(160deg, #1c1f30 0%, #11121c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 
                 0 10px 20px -5px rgba(0, 0, 0, 0.7),
                 0 4px 6px -2px rgba(0, 0, 0, 0.5),
                 inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
                 inset 0 -2px 4px 0 rgba(0, 0, 0, 0.6);
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
             transform-style: preserve-3d;
-            backdrop-filter: blur(12px);
         }
 
         .card-3d:hover {
-            transform: translateY(-3px) rotateX(2deg) rotateY(-1deg);
+            transform: translateY(-3px) rotateX(3deg);
             box-shadow: 
-                0 18px 30px -5px rgba(0, 0, 0, 0.8),
-                0 8px 12px -2px rgba(0, 0, 0, 0.6),
+                0 15px 25px -5px rgba(0, 0, 0, 0.8),
+                0 8px 10px -2px rgba(0, 0, 0, 0.6),
                 inset 0 1px 2px 0 rgba(255, 255, 255, 0.25);
         }
 
@@ -167,90 +127,147 @@
             background: linear-gradient(180deg, #090a0f 0%, #11131c 100%);
             border: 1px solid rgba(255, 255, 255, 0.07);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .input-3d:focus-within, .input-3d:focus {
-            border-color: var(--neon-blue);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 229, 255, 0.3);
+    
+        /* ===== RGB ULTRA ENGINE ADDITIONS ===== */
+        .rgb-bg {
+            position: fixed;
+            inset: -20%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255,0,128,0.25), transparent 25%),
+                radial-gradient(circle at 80% 30%, rgba(0,255,255,0.25), transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(128,0,255,0.22), transparent 30%),
+                radial-gradient(circle at 10% 90%, rgba(0,255,128,0.18), transparent 25%);
+            filter: blur(40px);
+            animation: rgbFlow 16s linear infinite;
+            z-index: -3;
         }
 
-        /* Login Screen 3D Entrance Effect */
-        #login-screen {
-            animation: loginEntrance 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        .rgb-mesh {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: radial-gradient(circle at center, black 45%, transparent 85%);
+            z-index: -2;
         }
-        @keyframes loginEntrance {
-            from {
-                opacity: 0;
-                transform: scale(0.9) rotateX(15deg) translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) rotateX(0deg) translateY(0);
-            }
+
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.7;
+            animation: floatOrb 10s ease-in-out infinite;
+            z-index: -1;
         }
-        .shake-3d {
-            animation: shake3D 0.4s ease-in-out;
+
+        .orb-1 {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(0,229,255,0.55), transparent 70%);
+            top: 8%;
+            left: 5%;
         }
-        @keyframes shake3D {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-10px) rotateY(-5deg); }
-            40%, 80% { transform: translateX(10px) rotateY(5deg); }
+
+        .orb-2 {
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, rgba(255,0,85,0.45), transparent 70%);
+            bottom: 12%;
+            right: 8%;
+            animation-delay: -3s;
         }
+
+        .orb-3 {
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(0,255,128,0.45), transparent 70%);
+            top: 55%;
+            left: 45%;
+            animation-delay: -6s;
+        }
+
+        .rgb-login-panel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rgb-login-panel::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(
+                90deg,
+                #ff0055,
+                #ff8a00,
+                #ffee00,
+                #00ff88,
+                #00e5ff,
+                #7b2cff,
+                #ff00aa,
+                #ff0055
+            );
+            background-size: 400% 400%;
+            animation: borderRun 5s linear infinite;
+            z-index: 0;
+        }
+
+        .rgb-login-inner {
+            position: relative;
+            z-index: 1;
+            background: rgba(10,14,28,0.94);
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+
+        .rgb-input {
+            background: linear-gradient(180deg, #0b0d14 0%, #141827 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .rgb-input:focus {
+            border-color: var(--neon-blue);
+            box-shadow:
+                0 0 18px rgba(0,229,255,0.28),
+                inset 0 2px 4px rgba(0,0,0,0.8);
+            outline: none;
+        }
+
+        .rgb-status-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        @keyframes rgbFlow {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.08) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        @keyframes borderRun {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+
+        @keyframes floatOrb {
+            0%,100% { transform: translateY(0px); }
+            50% { transform: translateY(-18px); }
+        }
+
     </style>
 </head>
-<body class="p-4 max-w-md mx-auto min-h-screen flex flex-col justify-between relative">
 
-    <!-- AMBIENT 3D ORB BACKGROUND -->
-    <div class="ambient-bg">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-    </div>
+<body class="p-4 max-w-md mx-auto min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
-    <!-- 3D LOGIN SECTION OVERLAY -->
-    <div id="login-overlay" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div id="login-screen" class="card-3d w-full max-w-sm p-6 rounded-3xl relative overflow-hidden border border-amber-500/30">
-            <!-- Header Branding -->
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 mx-auto bg-gradient-to-tr from-amber-500 via-yellow-400 to-amber-200 rounded-2xl flex items-center justify-center font-black text-3xl text-black shadow-lg shadow-yellow-500/40 border border-yellow-200 mb-3 transform hover:rotate-6 transition-transform">
-                    Z
-                </div>
-                <h1 class="font-black text-2xl tracking-wide text-yellow-400">ZENITSU VIP</h1>
-                <p class="text-xs text-gray-400 font-mono mt-1">SECURE ACCESS GATEWAY</p>
-            </div>
+    <div class="rgb-bg"></div>
+    <div class="rgb-mesh"></div>
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
 
-            <!-- Login Form -->
-            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-[11px] font-bold text-gray-400 mb-1.5 uppercase tracking-wider">User ID</label>
-                    <div class="input-3d rounded-xl flex items-center px-3 py-2.5">
-                        <span class="mr-2 text-yellow-400">👤</span>
-                        <input type="text" id="login-id" required placeholder="Enter ID" class="w-full bg-transparent text-xs text-white outline-none font-mono">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-bold text-gray-400 mb-1.5 uppercase tracking-wider">Password</label>
-                    <div class="input-3d rounded-xl flex items-center px-3 py-2.5">
-                        <span class="mr-2 text-yellow-400">🔑</span>
-                        <input type="password" id="login-pass" required placeholder="Enter Password" class="w-full bg-transparent text-xs text-white outline-none font-mono">
-                    </div>
-                </div>
-
-                <div id="login-error" class="hidden text-pink-500 text-xs text-center font-bold font-mono bg-pink-500/10 py-2 rounded-xl border border-pink-500/30">
-                    ⚠️ Invalid Credentials!
-                </div>
-
-                <button type="submit" class="btn-3d-pink w-full py-3 rounded-xl font-black text-white text-xs tracking-wider uppercase flex items-center justify-center gap-2 mt-2">
-                    <span>Unlock Engine</span>
-                    <span>⚡</span>
-                </button>
-            </form>
-
-            <div class="text-center mt-4 text-[10px] text-gray-500 font-mono">
-                IGG CHEAT GAMES ENGINE v1.30-FIX-5
-            </div>
-        </div>
-    </div>
 
     <!-- OVERLAY & SIDE DRAWER (MENU) -->
     <div id="drawer-overlay" onclick="toggleMenu()" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40"></div>
@@ -268,7 +285,7 @@
                 <button onclick="toggleMenu()" class="text-gray-400 hover:text-white text-xl font-bold p-1">✕</button>
             </div>
 
-            <!-- Language Switcher Grid -->
+            <!-- Language Switcher Grid (Supports EN, PT, ES, HI, ID, VI, RU, FR) -->
             <div class="mb-6">
                 <span class="text-xs font-semibold text-gray-400 mb-2.5 block flex items-center gap-1.5">🌐 <span data-i18n="lang_title">Language</span></span>
                 <div class="grid grid-cols-4 gap-2 text-xs text-center font-semibold" id="lang-grid">
@@ -301,7 +318,8 @@
             <div class="text-center text-[10px] text-gray-500 pt-2 font-mono">TsVip Engine v1.30-FIX-5</div>
         </div>
     </div>
-        <!-- MAIN DASHBOARD CONTENT -->
+
+    <!-- MAIN DASHBOARD CONTENT -->
     <div>
         <!-- Top App Bar -->
         <div class="flex justify-between items-center mb-4">
@@ -313,11 +331,55 @@
                         <span class="text-[10px] text-gray-400 font-mono">v1.30-FIX-5</span>
                         <span class="text-[10px] bg-emerald-900/60 text-emerald-400 px-2 py-0.5 rounded-full font-mono font-bold border border-emerald-500/30">&lt;&gt; CONNECTED</span>
                     </div>
-                    <div class="text-[10px] text-yellow-400/90 font-mono font-semibold mt-1" id="ist-clock">🇮🇳 IST: Loading...</div>
+                    <div class="text-[10px] text-cyan-300 font-mono font-bold mt-1 animate-pulse" id="ist-clock">🇮🇳 IST: Loading...</div>
                 </div>
             </div>
             <button onclick="toggleMenu()" class="p-2 text-gray-400 hover:text-white text-xl">⋮</button>
         </div>
+
+        
+        <!-- RGB ULTRA LOGIN PANEL -->
+        <div class="rgb-login-panel card-3d rounded-2xl mb-4">
+            <div class="rgb-login-inner">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-cyan-500/15 border border-cyan-400/30 text-2xl">🔐</div>
+                    <div>
+                        <h2 class="font-extrabold text-sm text-cyan-300">Secure RGB Login</h2>
+                        <p class="text-[11px] text-gray-400">Professional animated authentication panel</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 mb-3">
+                    <input type="text" placeholder="Username" class="rgb-input w-full rounded-xl px-3 py-3 text-sm text-white placeholder-gray-500">
+                    <input type="password" placeholder="Password" class="rgb-input w-full rounded-xl px-3 py-3 text-sm text-white placeholder-gray-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="btn-3d-connect py-3 rounded-xl font-bold text-xs">LOGIN</button>
+                    <button class="btn-3d-apply py-3 rounded-xl font-bold text-xs">REGISTER</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RGB SYSTEM STATUS -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="rgb-status-card card-3d rounded-2xl p-3">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[10px] text-cyan-400 font-bold">RGB ENGINE</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 shadow shadow-emerald-400"></span>
+                </div>
+                <div class="text-sm font-black text-white">SMOOTH ACTIVE</div>
+            </div>
+
+            <div class="rgb-status-card card-3d rounded-2xl p-3">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[10px] text-pink-400 font-bold">3D EFFECTS</span>
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 shadow shadow-cyan-400"></span>
+                </div>
+                <div class="text-sm font-black text-white">ULTRA MODE</div>
+            </div>
+        </div>
+
 
         <!-- Target File Picker -->
         <div class="card-3d p-3 rounded-2xl mb-4">
@@ -450,8 +512,9 @@
             </div>
         </div>
         <div id="console-log" class="h-24 overflow-y-auto space-y-1 text-gray-300 text-[11px]"></div>
-                    </div>
-         <!-- DYNAMIC MODALS FOR DRAWER LINKS -->
+    </div>
+
+    <!-- DYNAMIC MODALS FOR DRAWER LINKS -->
     <div id="modal-container" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         
         <!-- Settings Modal -->
@@ -469,7 +532,7 @@
             <div class="flex justify-between items-center"><h3 class="font-bold text-base text-blue-400">👤 My Account</h3><button onclick="closeModals()" class="text-gray-400">✕</button></div>
             <div class="text-xs space-y-2 input-3d p-3 rounded-xl">
                 <div><span class="text-gray-400">License Status:</span> <span class="text-emerald-400 font-bold">VIP LIFETIME UNLOCKED</span></div>
-                <div><span class="text-gray-400">User ID:</span> <span id="account-user-id" class="font-mono text-gray-200">IGG</span></div>
+                <div><span class="text-gray-400">User ID:</span> <span class="font-mono text-gray-200">ZENITSU-88942-IN</span></div>
             </div>
             <button onclick="closeModals()" class="w-full py-2 bg-blue-600 font-bold rounded-xl text-xs">Close</button>
         </div>
@@ -511,34 +574,12 @@
         </div>
     </div>
 
-    <!-- UI Logic & Authentication Script -->
+    <!-- UI Logic Script -->
     <script>
         let currentTab = 'stats';
         let currentLang = 'en';
 
-        // Login Logic
-        function handleLogin(e) {
-            e.preventDefault();
-            const idInput = document.getElementById('login-id').value.trim();
-            const passInput = document.getElementById('login-pass').value.trim();
-            const errorBox = document.getElementById('login-error');
-            const loginBox = document.getElementById('login-screen');
-
-            // Exact match validation
-            if (idInput === "IGG" && passInput === "626826") {
-                document.getElementById('login-overlay').classList.add('hidden');
-                document.getElementById('account-user-id').innerText = idInput;
-                writeLog(`Authenticated successfully as user: ${idInput}`, 'text-emerald-400');
-            } else {
-                errorBox.classList.remove('hidden');
-                loginBox.classList.remove('shake-3d');
-                void loginBox.offsetWidth; // Trigger reflow
-                loginBox.classList.add('shake-3d');
-                writeLog('Authentication Failed: Invalid ID or Password', 'text-pink-500');
-            }
-        }
-
-        // Full i18n Translations Dictionary
+        // Full i18n Translations Dictionary covering all 8 languages visible in the UI menu
         const translations = {
             en: {
                 lang_title: "Language", menu_settings: "Settings", menu_account: "My Account", menu_guide: "User Guide", menu_share: "Share App", menu_feedback: "Feedback", menu_about: "About App", menu_logout: "Logout", menu_exit: "Exit", label_file: "GAME SAVE FILE TARGET", btn_sub_connect: "🚀 Start Edit Game", btn_connect: "CONNECT", btn_sub_apply: "💾 Save and launch", btn_apply: "APPLY", tab_stats: "STATS", tab_unlocks: "UNLOCKS", tab_tools: "TOOLS", tab_regatta: "REGATTA", tab_vip: "VIP", unlocks_title: "Township Game Unlocks", unlock_buildings: "🏢 Unlock All Buildings & Factories", unlock_expansions: "🗺️ Unlock All Land Expansions", unlock_skins: "🎨 Unlock All Town Skins & Sets", tools_title: "Save Integrity Tools", tool_antiban: "🛡️ Enable Anti-Ban Protection Bypass", tool_instant: "⚡ Instant Factory Production", regatta_title: "Regatta Tasks", regatta_desc: "Inject 100 high-score tasks (150 points) into your Regatta. Works only if you have an active Regatta.", btn_inject: "Inject 100 Tasks", vip_title: "VIP Premium Features", vip_desc: "Unlocks Golden Ticket, Max Zoo Level, and Unlimited Booster Duration.", vip_golden: "🎟️ Activate Golden Ticket Season Pass"
@@ -575,6 +616,7 @@
                 if (dict[key]) el.innerText = dict[key];
             });
 
+            // Highlight Selected Language Pill
             document.querySelectorAll('#lang-grid button').forEach(b => {
                 b.className = "p-2 rounded-lg input-3d text-gray-400 hover:text-white";
             });
@@ -596,7 +638,7 @@
             if (clockElement) clockElement.innerText = `🇮🇳 ${dateStr} | ${timeStr} IST`;
         }
 
-        setInterval(updateISTClock, 1000);
+         setInterval(updateISTClock, 1000);
         updateISTClock();
 
         function writeLog(msg, colorClass = 'text-gray-300') {
@@ -607,7 +649,13 @@
         }
 
         writeLog('ZENITSU VIP Engine running...');
-        writeLog('Awaiting security authentication...', 'text-yellow-400');
+        writeLog('Connected: . Save file initialized.', 'text-emerald-400');
+        writeLog('Ready to edit!', 'text-emerald-400');
+
+        writeLog('RGB Ultra Engine synchronized successfully.', 'text-cyan-400');
+        writeLog('Smooth animated RGB background activated.', 'text-purple-400');
+        writeLog('3D glassmorphism reflections initialized.', 'text-yellow-400');
+
 
         function toggleMenu() {
             document.getElementById('side-drawer').classList.toggle('-translate-x-full');
@@ -627,10 +675,8 @@
 
         function actionLogout() {
             toggleMenu();
-            document.getElementById('login-overlay').classList.remove('hidden');
-            document.getElementById('login-pass').value = '';
-            document.getElementById('login-error').classList.add('hidden');
             writeLog('User session logged out.', 'text-pink-400');
+            alert('Logged out successfully.');
         }
 
         function actionExit() {
