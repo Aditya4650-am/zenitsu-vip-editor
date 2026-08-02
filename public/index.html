@@ -303,3 +303,65 @@
     </main>
   </div>
   
+  <script>
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Drawer Menu Toggles
+    function toggleMenu() {
+      document.getElementById('drawer').classList.toggle('open');
+      document.getElementById('overlay').classList.toggle('open');
+    }
+
+    // Scroll to Specific Section from Drawer Menu
+    function scrollToSec(id) {
+      toggleMenu();
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Login Verification
+    const VALID_KEYS = ["1234", "vip2026", "admin", "igg"];
+    
+    function checkAuth() {
+      const pass = document.getElementById('passkey').value.trim().toLowerCase();
+      const err = document.getElementById('login-err');
+
+      if (!pass) {
+        err.style.color = "var(--neon-red)";
+        err.textContent = "⚠️ Please enter your VIP Passkey!";
+        return;
+      }
+
+      if (VALID_KEYS.includes(pass)) {
+        err.style.color = "var(--neon-green)";
+        err.textContent = "✔ Access Granted! Loading Dashboard...";
+        
+        setTimeout(() => {
+          document.getElementById('login-overlay').classList.add('hidden');
+        }, 400);
+      } else {
+        err.style.color = "var(--neon-red)";
+        err.textContent = "❌ Incorrect Passkey! Try: 1234";
+      }
+    }
+
+    // Allow Enter Key to Submit Passkey
+    document.getElementById('passkey').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkAuth();
+    });
+
+    // Action Toast Handler
+    function act(msg) {
+      alert('⚡ ' + msg);
+    }
+  </script>
+</body>
+</html>
